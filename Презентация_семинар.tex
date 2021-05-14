@@ -1,0 +1,2163 @@
+% Compile: LuaLaTeX
+% Biber
+% ----------------------------------------------------------------------------
+% *** START PACKAGES <<<
+% ----------------------------------------------------------------------------
+%\documentclass[10pt]{beamer}
+\documentclass[pdflatex,compress,8pt,
+	xcolor={dvipsnames,dvipsnames,svgnames,x11names,table},
+	hyperref={colorlinks = true,breaklinks = true, urlcolor = NavyBlue}]{beamer}
+\usepackage[utf8]{inputenc}
+\usepackage[T2A,T1]{fontenc}
+\usepackage[russian,french,greek,ngerman,english]{babel}
+\usepackage{times}
+\usepackage{totcount}
+\usepackage{tikz}
+	\usetikzlibrary{calc} % для последнего слайда
+\regtotcounter{section}
+\usepackage{subfig}
+\usepackage{fancyhdr}
+\usepackage{metalogo}
+\usepackage[super]{nth}
+\usepackage[font={tiny,it}]{caption} % шрифт подписей к картинкам
+	\setbeamertemplate{caption}[numbered]
+\usepackage{graphicx}
+\usepackage{graphics}
+%\usepackage{textcomp}  % numero symbol
+\usepackage{gensymb} % degree symbol
+
+%%%%%%%%%%%%% рус: начало %%%%%%%%%%%%
+\usepackage{polyglossia} % Поддержка многоязычности (fontspec подгружается автоматически)
+%\usepackage{fontspec}
+\setmainlanguage{english} % Язык по-умолчанию английский  (в американской вариации по-умолчанию)
+\setotherlanguage{russian} % Дополнительный язык = русский
+\setmonofont{CMU Typewriter Text} % моноширинный шрифт
+\newfontfamily\cyrillicfonttt{CMU Typewriter Text} % моноширинный шрифт для кириллицы
+\defaultfontfeatures{Ligatures=TeX} % стандартные лигатуры TeX, замены нескольких дефисов на тире и т. п. Настройки моноширинного шрифта должны идти до этой строки, чтобы при врезках кода программ в коде не применялись лигатуры и замены дефисов
+\setmainfont{CMU Serif} % Шрифт с засечками
+\newfontfamily\cyrillicfont{CMU Serif} % Шрифт с засечками для кириллицы
+\setsansfont{CMU Sans Serif} % Шрифт без засечек
+\newfontfamily\cyrillicfontsf{CMU Sans Serif}
+
+%%%%%%%%%%%%% рус: конец %%%%%%%%%%%%
+
+
+%%%%%%%% цветная таблица: начало
+\usepackage{booktabs} 
+\usepackage{tabularx}
+\usepackage{array,etoolbox}
+\usepackage{boldline}
+\usepackage{colortbl} %% цветная таблица
+\setlength{\arrayrulewidth}{0.3mm}
+%%%%%% нумерация внутри таблицы %%%
+\preto\tabular{\setcounter{magicrownumbers}{0}}
+\newcounter{magicrownumbers}
+\newcommand\rownumber{\stepcounter{magicrownumbers}\arabic{magicrownumbers}}
+\usepackage{longtable}
+%%%%%%%%  цветная таблица: конец
+
+\usepackage{caption}
+%\captionsetup[figure]% redefines the caption setup of the figures environment in the beamer class.
+\captionsetup[figure]{labelfont=bf,textfont=it}
+
+\usepackage{wrapfig}
+\usepackage{csquotes}
+
+% ----------------------------------------------------------------------------
+% *** END PACKAGES <<<
+% ----------------------------------------------------------------------------
+% ----------------------------------------------------------------------------
+% *** START SETUP <<<
+% ----------------------------------------------------------------------------
+%\definecolor{color0}{HTML}{150489} % color of title text
+%\definecolor{color1}{HTML}{F5A9BC}
+%\definecolor{color2}{HTML}{F5BCA9}
+%\definecolor{color3}{HTML}{F5D0A9}
+%\definecolor{color4}{HTML}{F3E2A9}
+%\definecolor{color5}{HTML}{F2F5A9}
+%\definecolor{color6}{HTML}{E1F5A9}
+%\definecolor{color7}{HTML}{D0F5A9}
+%\definecolor{color8}{HTML}{BCF5A9}
+%\definecolor{color9}{HTML}{A9F5A9} 
+%\definecolor{color10}{HTML}{A9F5BC}
+%\definecolor{color11}{HTML}{A9F5D0}
+%\definecolor{color12}{HTML}{A9F5E1}
+%\definecolor{color13}{HTML}{A9F5F2}
+%\definecolor{color14}{HTML}{A9E2F3}
+%\definecolor{color15}{HTML}{A9D0F5}
+%\definecolor{color16}{HTML}{A9BCF5}
+%\definecolor{color17}{HTML}{A9A9F5}
+%\definecolor{color18}{HTML}{BCA9F5}
+%\definecolor{color19}{HTML}{D0A9F5}
+%\definecolor{color20}{HTML}{E2A9F3}
+%\definecolor{color21}{HTML}{F5A9F2}
+%\definecolor{color22}{HTML}{F5A9E1}
+%\definecolor{color23}{HTML}{F5A9D0}
+%\definecolor{color24}{HTML}{F5A9BC}
+%\definecolor{color25}{HTML}{FDA9A9}
+%\definecolor{color26}{HTML}{FDA0A0}
+%\definecolor{color27}{HTML}{F7819F}
+
+\definecolor{color0}{HTML}{150489} % color of title text
+\definecolor{color1}{HTML}{790AFF}
+\definecolor{color2}{HTML}{6A21FE}
+\definecolor{color3}{HTML}{5246FC}
+\definecolor{color4}{HTML}{3C67FA}
+\definecolor{color5}{HTML}{2883F5}
+\definecolor{color6}{HTML}{139EF1}
+\definecolor{color7}{HTML}{03B8EA}
+\definecolor{color8}{HTML}{11C6E6}
+\definecolor{color9}{HTML}{27DADE} 
+\definecolor{color10}{HTML}{40EBD4}
+\definecolor{color11}{HTML}{4CF2CF}
+\definecolor{color12}{HTML}{6CFDBE}
+\definecolor{color13}{HTML}{7BFFB7}
+\definecolor{color14}{HTML}{8EFEAC}
+\definecolor{color15}{HTML}{97FCA7}
+\definecolor{color16}{HTML}{BBEE91}
+\definecolor{color17}{HTML}{D2DE81}
+\definecolor{color18}{HTML}{DFD478}
+\definecolor{color19}{HTML}{F7BD67}
+\definecolor{color20}{HTML}{FFA85A}
+\definecolor{color21}{HTML}{FF8B48}
+\definecolor{color22}{HTML}{FF743C}
+\definecolor{color23}{HTML}{FF5C2F}
+\definecolor{color24}{HTML}{FF391C}
+\definecolor{color25}{HTML}{FF2D16}
+\definecolor{color26}{HTML}{FF0E07}
+\definecolor{color27}{HTML}{c9171e}
+
+\makeatletter
+
+\def\sectioncolor{color0}% color to be applied to section headers
+
+\setbeamercolor{palette primary}{use=structure,fg=structure.fg}
+\setbeamercolor{palette secondary}{use=structure,fg=structure.fg!75!black}
+\setbeamercolor{palette tertiary}{use=structure,fg=structure.fg!50!black}
+\setbeamercolor{palette quaternary}{fg=black}
+
+\setbeamercolor{local structure}{fg=color0}
+\setbeamercolor{structure}{fg=color0}
+\setbeamercolor{title}{fg=color0}
+\setbeamercolor{section in head/foot}{fg=white}% цвет закладок желобов
+
+\setbeamercolor{normal text}{fg=black,bg=white}
+\setbeamercolor{block title alerted}{fg=red}
+\setbeamercolor{block title example}{fg=color0}
+
+% Each \section redefines \sectioncolor and applies the shading with this color
+% add as many colors as you need
+\AtBeginSection{%
+  \renewcommand\sectioncolor{%
+    \ifcase\value{section} color0\or color1\or color2\or color3\or color4\or color5\or color6\or color7\or color8\or color9\or color10\or color11\or color12\or color13\or color14\or color15\or color16\or color17\or color18\or color19\or color20\or color21\or color22\else color23\fi}
+  \setbeamercolor{frametitle}{fg=red}%
+  \pgfdeclareverticalshading{beamer@headfade}{\paperwidth}
+  {%
+    color(0.25cm)=(bg);
+    color(1.25cm)=(\sectioncolor)%
+  }
+}
+\setbeamerfont{frametitle}{size=\normalsize}
+
+\newlength\sectionboxwd
+
+\AtBeginDocument{%
+  \ifnum\totvalue{section}>0 
+    \setlength\sectionboxwd{\dimexpr\paperwidth/\totvalue{section}\relax}
+  \else
+    \setlength\sectionboxwd{\paperwidth}
+  \fi
+} 
+
+\newcommand\insertcolors{%
+  \ifnum\totvalue{section}>0
+    \setlength\fboxsep{0pt}%
+    \foreach \x in {1,...,\totvalue{section}}
+    {\colorbox{color\x}{\phantom{\rule{\dimexpr\the\sectionboxwd\relax}{5ex}}}}%
+  \else\fi
+}
+
+\setbeamertemplate{section in head/foot}{\setlength\fboxsep{0pt}\hspace{-1.875ex}%
+    \parbox[c][4ex][t]{\sectionboxwd}{%
+      \hfill\parbox{\dimexpr\sectionboxwd-8pt\relax}{%
+      \raggedright\insertsectionhead%
+      }\hfill\mbox{}%
+    }%
+}
+
+\setbeamertemplate{headline}
+{%
+  \begin{beamercolorbox}[wd=\paperwidth]{section in head/foot}
+    \insertcolors%
+    \vskip-4ex%
+    \insertsectionnavigationhorizontal{\paperwidth}{\hskip-1.875ex}{\hskip-8pt}\vskip2pt
+  \end{beamercolorbox}%
+}
+
+
+\pgfdeclareverticalshading{beamer@headfade}{\paperwidth}
+{% полоска вверху
+  color(0.25cm)=(bg);
+  color(1.25cm)=(color18)% титульный лист цвет
+}
+
+\addtoheadtemplate{}{\pgfuseshading{beamer@headfade}\vskip-1.25cm}
+
+\setbeamertemplate{navigation symbols}{}
+\addtobeamertemplate{footline}{}{%
+  \hfill\color{\sectioncolor}\rule[0.5cm]{2.5cm}{1pt}\rule[0.5cm]{1pt}{1cm}\hspace*{0.5cm}}
+  
+ \setbeamerfont{institute}{size=\normalfont}
+ 
+ \usepackage[useregional]{datetime2}
+%\usepackage{datetime}
+%\usepackage[ddmmyyyy]{datetime}
+% 	\renewcommand{\dateseparator}{--}
+% ----------------------------------------------------------------------------
+% *** END SETUP <<<
+% ----------------------------------------------------------------------------
+
+% ----------------------------------------------------------------------------
+% *** START BIBLIOGRAPHY <<<
+% ----------------------------------------------------------------------------
+\usepackage[
+	backend=biber, 
+	style = numeric,
+	maxbibnames=99,
+	citestyle=numeric,
+	giveninits=true,
+	isbn=true,
+	url=true,
+	natbib=true,
+	sorting=ndymdt,
+	bibencoding=utf8,
+	useprefix=false,
+	language=auto, 
+	autolang=other,
+	backref=true,
+	backrefstyle=none,
+	indexing=cite,
+]{biblatex}
+\DeclareSortingTemplate{ndymdt}{
+  \sort{
+    \field{presort}
+  }
+  \sort[final]{
+    \field{sortkey}
+  }
+  \sort{
+    \field{sortname}
+    \field{author}
+    \field{editor}
+    \field{translator}
+    \field{sorttitle}
+    \field{title}
+  }
+  \sort[direction=descending]{
+    \field{sortyear}
+    \field{year}
+    \literal{9999}
+  }
+  \sort[direction=descending]{
+    \field[padside=left,padwidth=2,padchar=0]{month}
+    \literal{99}
+  }
+  \sort[direction=descending]{
+    \field[padside=left,padwidth=2,padchar=0]{day}
+    \literal{99}
+  }
+  \sort{
+    \field{sorttitle}
+  }
+  \sort[direction=descending]{
+    \field[padside=left,padwidth=4,padchar=0]{volume}
+    \literal{9999}
+  }
+}
+
+\addbibresource{MidTremBib.bib}
+%\renewcommand*{\bibfont}{\footnotesize}
+\renewcommand*{\bibfont}{\scriptsize}
+
+%%%%%%%%%%%% значок Open Access: начало %%%%%%%
+%\usepackage[tikzsymbol=plos]{biblatex-ext-oa}
+%\DeclareOpenAccessEprintUrl[always]{hal}{%
+ % http://hal.archives-ouvertes.fr/\thefield{eprint}}
+%\DeclareOpenAccessEprintAlias{HAL}{hal}
+%%%%%%%%%%% значок Open Access:: конец %%%%%%%
+
+\setbeamertemplate{bibliography item}{\insertbiblabel}
+%\setbeamertemplate{bibliography item}{}
+
+% ----------------------------------------------------------------------------
+% *** END BIBLIOGRAPHY <<<
+% ----------------------------------------------------------------------------
+%%%%%%%%% hyper ref setup %%%%%%%%%
+\usepackage[colorlinks=true]{hyperref}
+\hypersetup{pdftitle={Морфоструктурные особенности глубоководных желобов Тихого океана, проблема их происхождения}, 
+	pdfauthor={Lemenkova Polina}, 
+	pdfsubject={PhD Seminar Presentation}, 
+	pdfcreator={Lemenkova Polina}, 
+	pdfproducer={Lemenkova Polina}, 
+	colorlinks=true,linkcolor=blue, 
+	citecolor=NavyBlue, 
+	filecolor=magenta, 
+	urlcolor=blue,
+	pdfkeywords={Pacific Ocean, hadal trench, deep-sea trench, geomorphology, bathymetry, cartography, mapping, GMT, Generic Mapping Tools, Python, R, programming language, Matplotlib, Seaborn, submarine geomorphology, data analysis, statistics, spatial analysis, comparative analysis, statistical analysis, cluster analysis, factor analysis, algorithm, oceanography, GIS, marine geology, geomorphology}
+	}	
+
+%%%%%%%% цветные разделители
+\usepackage[object=vectorian]{pgfornament}
+%%%%%%%% цветные разделители
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% ----------------------------------------------------------------------------
+% *** TITLE <<<
+% ---------------------------------------------------------------------------
+\title{Морфоструктурные особенности \\
+глубоководных желобов Тихого океана,\\
+проблема их происхождения
+}
+\subtitle{Лабораторный семинар структурного подразделения 303}
+\author{Леменкова Полина Алексеевна}
+\institute{
+Научный руководитель: к.г.-м.н., в.н.с. Илларионов Владимир Константинович\\
+\vspace{1em}
+Институт физики Земли им. О.Ю. Шмидта Российской Академии Наук, Лаборатория No 303 Региональной геофизики и природных катастроф }
+%\ddmmyyyydate
+\date{24.05.2021}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\logo{\includegraphics[width=.1\textwidth]{ifz-logo.png}\vspace{-30pt}\hspace{20pt}}
+%\logo{\includegraphics[width=.1\textwidth]{blue-logo.jpg}\vspace{-30pt}\hspace{20pt}}
+%%%%%%%%% blue-logo.jpg
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+
+% ----------------------------------------------------------------------------
+% *** Titlepage <<<
+% ----------------------------------------------------------------------------
+\maketitle
+% ----------------------------------------------------------------------------
+% *** END of Titlepage >>>
+% ----------------------------------------------------------------------------
+\setbeamertemplate{footline}[text line]{%
+\parbox{\linewidth}{\vspace*{-8pt}Семинар лаб. 303: Леменкова П.А. ИФЗ РАН, 24.05.2021 "\emph{Морфоструктурные особенности глубоководных желобов Тихого океана...}"} \hfill\insertpagenumber\vspace*{8pt}}
+%\setbeamertemplate{headline}{\insertpagenumber}
+
+
+% ----------------------------------------------------------------------------
+% *** END of Footnote >>>
+% ----------------------------------------------------------------------------
+% ----------------------------------------------------------------------------
+% *** Introduction <<<
+% ----------------------------------------------------------------------------
+%\section{Info}
+% \begin{frame}\frametitle{Основные данные}
+%\begin{itemize}
+%     	\item Научный руководитель: к.г.-м.н., с.н.с. В.К. Илларионов
+%	\item Институт физики Земли им. О.Ю. Шмидта Российской академии наук (ИФЗ РАН)
+%	\item Отделение III: Лаборатория региональной геофизики и природных катастроф №303
+%	\item Шифр специальности: 25.00.03 «Геотектоника и геодинамика»
+%	\item Соискание степени: кандидата геолого-минералогических наук
+%	\item г. Москва	
+%\end{itemize}
+%\end{frame}
+%\section{Intro}
+
+% ----------------------------------------------------------------------------
+% *** START: Final Slide <<<
+% ----------------------------------------------------------------------------
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{Общая характеристика работы}
+\vspace{1em}
+\begin{figure}[H]
+	\centering
+		\includegraphics[width=10cm]{Fig-PO.jpg}
+	\caption{Общая батиметрическая карта дна Тихого океана, ETOPO1}\label{fig:PO.jpg}
+\end{figure}
+
+\begin{exampleblock}{Объект исследования:}
+	20 глубоководных желобов Тихого океана
+\end{exampleblock}	
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{Общая характеристика работы}
+	\begin{exampleblock}{Цель исследования}
+\begin{itemize}\small
+	\item сравнительный анализ вариативности морфоструктур желобов, сформированных в контексте различных региональных тектонико-геологических условий вдоль северной, восточной, юго-западной и западной окраин
+	\item региональное картографирование желобов с целью визуализации топографических, тектонико-геологических, сейсмически геоморфологической классификации их типов на основе моделирования и визуализации их продольно-поперечных профилей для анализа их морфоструктур: индивидуальных особенностей, отличий и
+сходства.
+	\item оценка тектонико-геологических условий в разных регионах Тихого океана (западный и восточный как основные) для оценки факторов воздействия, определяющих морфоструктуры желобов
+\end{itemize}
+	\end{exampleblock}
+	\begin{alertblock}{Методология}
+\begin{itemize}\small
+	\item Основной инструмент: картографический инструмент GMT (\cite{Wessel1998}, \cite{WesselSmith1996}) для систематического построения ряда профилей поперечного сечения для сравнительного анализа геоморфологии 20 желобов и картографирования.
+	\item Дополнительные инструменты: QGIS (основной ГИС и плагины для цифрования), статистические библиотеки для анализа и визуализации данных (Python, R, Octave, AWK) для анализа данных
+	\item Технические подходы: анализ разноформатных данных (табличных, растровых и векторных), обработка (форматирование), визуализация, моделирование профилей на основе табличных данных (XY-координаты и глубины), картографирование, 3D модели, статистическая обработка данных. 
+	\item Источники: открытые геоданные: ETOPO1, GEBCO, EGM-2008, EGM96, векторные данные (границы тектонических плит, геологические объекты), CMT
+\end{itemize}
+ 	\end{alertblock}
+\end{frame}
+
+
+
+\begin{frame}\frametitle{Тихий океан}
+\vspace{1em}
+\begin{figure}[H]
+	\centering
+		\includegraphics[width=8.5cm]{Fig-POg.jpg}
+	\caption{Общая геологическая карта дна Тихого океана}\label{fig:POg.jpg}
+\end{figure}
+
+\begin{exampleblock}{Цели}
+\small{Влияние тектонико-геологических факторов на морфоструктруру 20 желобов Тихого океана \\изучено современными методами визуализации, моделирования и статистического анализа данных, а также систематического картографирования с использованием технологий \\скриптовой программы GMT}
+\end{exampleblock}
+\end{frame}
+
+\begin{frame}\frametitle{Задачи исследования}
+
+\begin{alertblock}{Задачи}
+\begin{itemize}
+ \item Изучение геологии и подводной геоморфологии Тихоокеанских желобов:
+            \item Техническое совершенствование и тестирование алгоритмов анализа данных
+            \item Применение инновационных методов в визуализации и картографировании данных
+            \item Разработка авторской методики автоматической оцифровки профилей поперечных сечений глубоководных желобов
+            \item Последовательная обработка данных и моделирование с помощью комбинации инструментов QGIS, Python, R, GMT, AWK, Octave
+             \item Задача автоматизация анализа геологических данных направлена ​​на достижение следующих результатов:
+             	\begin{itemize}
+            		\item точность и надежность результатов обработки данных
+			\item повышенная скорость обработки данных благодаря скриптовой технике картографирования имеет решающее значение для обработки больших объемов данных, что актуально для геологической съемки (напр. батиметрическое профилирование на НИС эхолотом)
+			\item точность и аккуратность графического моделирования данных
+			\item эстетичность и тонкие дизайнерские настройки в картографическом функционале GMT 
+		\end{itemize}
+		\item Геопространственный анализ применен для выявления вариаций морфоструктур желобов и выявления корреляций между их формой рельефа (градиент крутизны склона, диапазоны глубин) и тектоническими условиями их формирования
+\end{itemize}
+	\end{alertblock}
+\end{frame}
+
+\begin{frame}\frametitle{Актуальность и новизна}
+\begin{exampleblock}{Теоретическое обоснование}
+\begin{itemize}
+            \item Недоступное для непосредственного изучения местоположение глубоководных желобов $=>$ можно визуализировать только с помощью инструментов ДЗЗ и машинной обработки данных.
+            \item Точные батиметрические карты дна океана необходимы для понимания тектонической структуры океана и геолого-геофизикого анализа.         
+\end{itemize}
+\end{exampleblock}		
+\begin{alertblock}{Практическая значимость}
+\begin{itemize}
+            \item Практическая значимость океанических желобов заключается в их значении как особых морфоструктур рельефа дна Мирового океана, сформированных в зонах субдукции и тектонической активности окраин Тихого океана
+            \item Анализ и сравнение желобов, их образование, формирование и тектонико-геологическая эволюция – вопрос особой важности для геодинамики, тектоники, морской геофизики и геологии. 
+            \item Использование новейших современных данных (ETOPO1, GEBCO-2019, SRTM, ETOPO5 and EGM96) для картографирования тектонически значимых регионов субдукции окраинных регионов дна Тихого океана 
+             \item Визуализация разнообразия морфоструктур желобов и моделирование \\профилей продольно-поперечного сечения на основе GMT
+             \item Изучение свойств Тихоокеанских желобов для выявления корреляции их морфоструктур с тектонико-геологическими условиями
+\end{itemize}
+\end{alertblock}		
+\end{frame}
+
+\section{Дан}
+
+\begin{frame}\frametitle{Данные}
+\vspace{2em}
+Точность цифровых батиметрических данных имеет решающее значение в тектонико-геологичнсих исследованиях океанского дна \cite{Smith}. В данной работе использовались такие данных, как GEBCO, ETOPO1, SRTM для высококачественного картирования и моделирования, а также другие данные, обобщенные в таблице ниже.
+
+\begin{table}\caption{Источники данных, типы и точность}\label{tab:T2}
+\begin{tabular}{@{\makebox[2em][r]{\rownumber\space}} | p{1.5cm} p{2cm} p{4cm} }
+\multicolumn{1}{@{\makebox[2em][r]{No}} | l}{Данные} & Происхождение & Тип \\ 
+		\arrayrulecolor[RGB]{211,204,214}\hline\hline		
+        ETOPO1 & NOAA & 1 arc-min GRM грид \cite{AmanteEakins2009}\\       
+       		\arrayrulecolor[RGB]{166,154,189}\hline
+	ETOPO5 & NOAA & 5-мин GRM растровый грид \\       
+       		\arrayrulecolor[RGB]{166,154,189}\hline
+	GEBCO & BODC & 15-сек DEM растровый грид \\       
+       		\arrayrulecolor[RGB]{166,154,189}\hline				
+        SRTM & NASA & 15-sec DEM raster grid \cite{Beckeretal2009} \\      
+        		\arrayrulecolor[RGB]{166,165,196}\hline\hline
+	Геология & USGS & Векторные слои \\      
+        		\arrayrulecolor[RGB]{166,165,196}\hline\hline
+	Гравиметрия & Scripps IO & CryoSat-2, Jason-1 растры \cite{Sandwelletal2013}\\   
+		\arrayrulecolor[RGB]{166,165,196}\hline\hline
+	EGM96 & Scripps IO & Модель геоида\\      
+        		\arrayrulecolor[RGB]{166,165,196}\hline\hline	
+	ASCII & Scripps IO & Topo tables (xyz format) \\      
+        		\arrayrulecolor[RGB]{166,165,196}\hline\hline
+	GEBCO & IHO-IOC & Географическая топонимика \cite{IHOIOC2012} \\      
+        		\arrayrulecolor[RGB]{166,165,196}\hline\hline
+\end{tabular}
+\end{table}
+
+\end{frame}
+
+\begin{frame}\frametitle{Желоба}
+
+\begin{table}\footnotesize
+\caption{Физико-географические факты об основных 20 желобах Тихого океана}
+\begin{tabular}{@{\makebox[2em][r]{\rownumber\space}} | p{3.5cm} p{1.2cm} p{1.2cm} p{0.7cm} |}
+\multicolumn{1}{@{\makebox[2em][r]{No}} | l}{Название желоба} & Макс. глуб. & Длина* & Ширина* \\ 
+		\arrayrulecolor[RGB]{184,210,0}\hline\hline
+	Алеутский & 8,109 & 3,400 & 59 \\
+       		\arrayrulecolor[RGB]{195,216,37}\hline
+	Марианский & 10,994  & 2,550 & 59 \\
+        		\arrayrulecolor[RGB]{170,207,83}\hline
+	Филиппинский & 10,540 & 1,320 & 65 \\
+        		\arrayrulecolor[RGB]{199,220,104}\hline
+	Курило-Камчатский & 10,542 & 2,900 & 59 \\
+        		\arrayrulecolor[RGB]{216,230,152}\hline
+	Центральноамериканский & 6,669 & 2,750 & 34 \\
+        		\arrayrulecolor[RGB]{224,235,175}\hline
+	Перу-Чилийский & 8,065 & 5,900 & 64 \\
+        		\arrayrulecolor[RGB]{185,208,139}\hline	
+	Хикуранги & 3,750 & 350 & 80 \\
+		\arrayrulecolor[RGB]{185,208,139}\hline	
+	Пюйсегюр & 6,300 & 620 & 76 \\
+        		\arrayrulecolor[RGB]{185,208,139}\hline	
+	Палау & 11,034 & 700 & 47 \\
+        		\arrayrulecolor[RGB]{185,208,139}\hline
+	Японский & 8,513 & 800 & 59 \\
+        		\arrayrulecolor[RGB]{185,208,139}\hline
+	Кермадек & 10,047 & 1,200 & 88 \\
+        		\arrayrulecolor[RGB]{185,208,139}\hline
+	Тонга & 10,882 & 1,375 & 78 \\
+        		\arrayrulecolor[RGB]{185,208,139}\hline
+	Идзу-Бонин & 9,780 & 2,800 & 82 \\
+        		\arrayrulecolor[RGB]{185,208,139}\hline
+	Новобританский (Бугенвиль) & 9,140 & 335 & 70 \\
+        		\arrayrulecolor[RGB]{185,208,139}\hline
+	Желоб Сан-Кристобаль & 8,255 & 742 & 64 \\
+        		\arrayrulecolor[RGB]{185,208,139}\hline
+	Манильский & 5,400 & 648 & 76 \\
+        		\arrayrulecolor[RGB]{185,208,139}\hline
+	Яп & 8,850 & 500 & 45 \\
+        		\arrayrulecolor[RGB]{185,208,139}\hline
+	Вануату (Новые Гебриды) & 7,600 & 1,200 & 34 \\
+        		\arrayrulecolor[RGB]{185,208,139}\hline
+	Витязь & 5,984 & 580 & 65 \\
+        		\arrayrulecolor[RGB]{185,208,139}\hline
+	Рюкю & 7,460 & 2,250 & 38 \\
+        		\arrayrulecolor[RGB]{131,155,92}\hline\hline
+\end{tabular}
+\end{table}
+*Длина и ширина в км
+\end{frame}
+
+\section{Нов}
+
+\begin{frame}\frametitle{Новизна}
+\vspace{1em}
+\begin{exampleblock}{Научная новизна:}
+\begin{itemize}
+	 \item Разработаны экспериментальные методы GMT, примененные к моделированию именно глубоководных желобов
+	 \item Расширение существующих методов анализа данных с использованием языков Python, R, AWK и Octave для обработки данных, моделирования, статистического анализа, визуализации и морфологической классификации подводных форм рельефа желобов
+	 \item Междисциплинарный подход, сочетающий ГИС-анализ и статистические методы (R, Python, MATLAB), которые способствуют изучению океанских желобов, при пространственном анализе больших данных
+	 \item Впервые осуществлено сравнительное моделировании морфоструктур профилей 20 глубоководных желобов Тихого океана, выполненных с помощью последовательного использования современных наборов инструментов для создания картографических скриптов и статистического анализа.
+	 \item Представлена систематическая классификации морфоструктр желобов на основе скриптовой картографической программы GMT, не применяемой ранее в существующих работах по сравнительной морфологии глубоководных желобов Тихого океана.
+	 \item Техническая новизна заключается в сочетании GIS, GMT, Python, AWK, R \\применительно к задачам картографирования и моделирования подводных\\ форм рельефа дна глубоководных желобов Тихого океана.
+\end{itemize}
+\end{exampleblock}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{Актуальность}
+\vspace{1em}
+\begin{exampleblock}{Актуальность представленного междисциплинарного исследования}
+\begin{itemize}\small
+	 \item На данный момент, геоморфология океанических желобов картографирована и визуализирована существенно хуже и недостаточно детально по сравнению с наземными участками Земли. Это связано со следующими факторами: 
+	 	\begin{itemize}
+			 \item недоступность непосредственных наблюдений, 
+			 \item техническая сложность, логистические трудности и дороговизна морских работ регулярной съемки морского дна (экспедиций НИС)
+			 \item сложный подводный рельеф вызванный активной тектоникой (зоны субдукции), сейсмичностью по окраинам Тихого океана и литолого-стратиграфическим строением. 
+		\end{itemize}
+	\item Несмотря на существующие разрозненные работы по отдельным желобам, комплексное картографирование морфоструктур желобов Тихого океана в литературе на данный момент отсутствует $=>$ это требует отдельной объемной работы, систематизирующей знания и данные по морфоструктурам желобов
+	\item Стремительно развивающиеся методы обработки данных (программирование, скриптовые алгоритмы, статистика) произвели революцию в науках о Земле и геологии $=>$ важность и нужность междисциплинарных подходов
+	\item Современные методы обработки данных, по сравнению с предыдущими, технически позволяют более детально, точно и эффектно визуализировать и обрабатывать данные (как табличные в виде графиков, так и карты)
+	\item Открытые данные (open source data) являются неоценимым источником контекстной тематической информации в науках о Земле, т.к. они позволяют обеспечить создание актуальной, современной, регулярно обновляющейся информации. 
+	\item Надежные данные важны для точного картографирования океанского дна и геолого-геофизического анализа. В данной диссертации использовались открытые данные высокого разрешения. 
+
+\end{itemize}
+\end{exampleblock}
+\end{frame}
+\section{КК}
+
+\begin{frame}\frametitle{Курило-Камчатский желоб}
+\begin{minipage}[0.4\textheight]{\textwidth}
+\begin{columns}[T]
+\begin{column}{0.4\textwidth}
+\vspace{2em}
+\begin{itemize}
+            \item Курило-Камчатский желоб (ККж): глубины $>$ 5000 m
+            \item ККж расположен на границе Охотского моря, Дальнего Востока, СЗ побережья Тихого океана. 
+            \item ККж продолжается на ЮВ от побережья п-ва Камчатка, параллельно гряде Курильских о-вов, до о. Хоккайдо.
+            \item Максимальные глубины Охотского моря 3374 м. \cite{MaiorovaAdrianov2018b}
+            \item Самый глубокий пролив к северо-западу от Тихого океана - Буссоль (2300 м) \cite{Brandtetal2018}
+\end{itemize}	
+\end{column}
+\begin{column}{0.6\textwidth}
+\vspace{2em}
+\begin{figure}[H]
+	\centering
+		\includegraphics[width=6.5cm]{Fig-KKT1.jpg}
+	\caption{Топокарта Курило-Камчатского желоба \cite{Lemenkova201995}}\label{fig:KKT1}
+\end{figure}
+\end{column}
+\end{columns}
+\end{minipage}
+\end{frame}
+
+\begin{frame}\frametitle{Курило-Камчатский желоб}
+\begin{minipage}[0.4\textheight]{\textwidth}
+\begin{columns}[T]
+\begin{column}{0.55\textwidth}
+\vspace{2em}
+\begin{figure}[H]
+	\centering
+		\includegraphics[width=7.0cm]{Fig-KKT2.jpg}
+	\caption{Тектонико-геологические условия Курило-Камчатского желоба и п-ова Камчатка \cite{Lemenkova201995}}\label{fig:KKT2}
+\end{figure}
+\end{column}
+\begin{column}{0.45\textwidth}
+\vspace{3em}
+	Краткая характеристика : 
+\begin{itemize}
+            \item границу большой зоны субдукции Тихоокеанской тектонической плиты под Охотскую тектоническую плиту \cite{Bird2003}
+            \item неравномерность его батиметрических форм и геоморфного строения
+            \item вместе с Алеутским желобом ККТ представляет собой единую структуру, площадью: 254,740 $km^2$ \cite{Harrisetal2014}.
+            \item Охотская плита представляет собой область активных грабенов, лежащих к югу от цепочки небольших осадочных бассейнов в районе г. Черского \cite{Savostinetal1983}. 
+\end{itemize}
+\end{column}
+\end{columns}
+\end{minipage}
+\end{frame}
+
+\begin{frame}\frametitle{Курило-Камчатский желоб}
+\begin{minipage}[0.4\textheight]{\textwidth}
+\begin{columns}[T]
+\begin{column}{0.55\textwidth}
+\vspace{2em}
+\begin{figure}[H]
+	\centering
+		\includegraphics[width=7.0cm]{Fig-KKT3.jpg}
+		\caption{Модель геоида (EGR96) Курило-Камчатского желоба и п-ова Камчатка \cite{Lemenkova201995}}\label{fig:KKT3}
+\end{figure}
+\end{column}
+\begin{column}{0.45\textwidth}
+\vspace{7em}
+	Геолого-тектоническая обстановка: 
+\begin{itemize}\small
+            \item показана радиально-симметричная когерентность между спутниковой гравиметрией и батиметрией на основе многолучевых измерений \cite{MarksSmith2012}
+            \item аномалий гравитационного поля в свободном воздухе (мГал) аномалий плотности в топографии морского дна, отложениях, земной коре и мантии \cite{SmithSandwell1997b}. 
+            \item в аномалии свободного воздуха преобладают коротковолновые вариации, которые отражают контраст плотности на морском дне.
+            \item распределение значений силы тяжести коррелирует с батиметрией морского дна
+\end{itemize}
+\end{column}
+\end{columns}
+\end{minipage}
+\end{frame}
+
+\begin{frame}\frametitle{Курило-Камчатский желоб}
+\vspace{1em}
+\begin{minipage}[0.4\textheight]{\textwidth}
+\begin{columns}[T]
+\begin{column}{0.5\textwidth}
+\begin{figure}[H]
+	\centering
+		\includegraphics[width=7cm]{Fig-KKT4.jpg}
+	\caption{Поперечные батиметрические профили Курило-Камчатского желоба \cite{Lemenkova201995}}\label{fig:KKT4}
+\end{figure}
+\end{column}
+
+\begin{column}{0.3\textwidth}
+\vspace{2em}
+\begin{itemize}\footnotesize
+            \item Северная часть показывает более глубокие значения и менее крутые склоны по сравнению с к южному сегменту, который относится к размывающим рвам и дрейфу подводных отложений.
+            \item Южная часть имеет большие глубины согласно батиметрическое карте и более крутой уклон, что можно объяснить интенсивной сейсмичностью и вулканизмом. 
+            \item ККж образует V-образную долину в своем южном сегменте с шириной профиля около 3 км, и корытообразную форму (П-образную в перевернутой форме) в северном сегменте.
+ \end{itemize}	
+\end{column}
+
+\end{columns}
+\end{minipage}
+\end{frame}
+            
+\begin{frame}\frametitle{Курило-Камчатский желоб}
+\begin{minipage}[0.4\textheight]{\textwidth}
+\begin{columns}[T]
+\begin{column}{0.5\textwidth}
+\vspace{2em}
+\begin{figure}[H]
+	\centering
+		\includegraphics[width=6.0cm]{Fig-KKT5.jpg}
+	\caption{3D визуализация геоморфологической структуры Курило-Камчатского желоба и п-ова Камчатка \cite{Lemenkova201995}} \label{fig:KKT5}
+\end{figure}
+\end{column}
+\begin{column}{0.5\textwidth}
+\vspace{2em}
+	Ключевые моменты геоморфологии Курило-Камчатского желоба:
+\begin{itemize}\small
+            \item Северный сегмент геоморфологии дна ККж: пологие склоны и глубины $< 7,400$ м.
+            \item Северная стена желоба представляет собой островную покатую поверхность Курильских о-вов.
+            \item Профили на северном сегменте в основном плоские и идут параллельно на небольших глубинах, достигая ок. 7200 м на морском дне.
+            \item Большинство профилей на северном сегменте показывают мелкие по глубине и пологие формы склона после расширения впадины желоба.
+
+\end{itemize}
+\end{column}
+\end{columns}
+\end{minipage}
+\end{frame}	
+
+\begin{frame}\frametitle{Курило-Камчатский желоб}
+\vspace{1em}
+\begin{figure}[H]
+	\centering
+		\includegraphics[width=8cm]{Fig-KKT6.jpg}
+	\caption{Поперечные батиметрические профили Курило-Камчатского желоба, моделирование на Октаве}\label{fig:KKT6}
+\end{figure}
+\end{frame}
+
+\begin{frame}\frametitle{Курило-Камчатский желоб}
+\vspace{1em}
+\begin{figure}[H]
+	\centering
+		\includegraphics[width=8cm]{Fig-KKT8.jpg}
+	\caption{Статистический анализ профилей поперечного сечения ККж, GMT}\label{fig:KKT8}
+\end{figure}
+\end{frame}
+
+\begin{frame}\frametitle{Курило-Камчатский желоб}
+Ключевые результаты по моделированию батиметрии Курило-Камчатского желоба: 
+\begin{itemize}
+            \item Курило-Камчатский желоб (ККж): желоб каскадной формы. 
+            \item Южная часть глубже достигает -8 200 м; северная часть имеет максимальные значения -7 800 м.
+            \item В южном сегменте глубина морского дна постепенно увеличивается с увеличением широты по мере продвижения на юг.
+            \item Морфология желоба на севере окончания южного сегмента ККЖ при подходе к проливу Буссоль имеет U-образную форму. 
+            \item Профили, расположенные в северном сегменте, более мелкие 
+            \item Вариации иллюстрируют тектонические и геологические локальные изменения и различную седиментацию северной и южной части желоба.
+            \item На участке вдоль северной части желоба определены характерные особенности морфологии желоба (подводные каньоны, клин желоба, подводные гребни и котловины). 
+            \item Клинообразная или U-образная морфология желоба в двух частях (южный и северный) отличается от внутреннего склона и в продольном направлении по оси желоба. 
+            \item Профили южного сегмента желоба, по сравнению с северным сегментом, расположены вблизи интенсивной вулканической зоны, вследствие чего в этой части присутствуют эрозионные рвы на глубине -3000 м. 
+\end{itemize}	
+
+\end{frame}
+
+\section{А}
+
+\begin{frame}\frametitle{Алеутский желоб}
+\vspace{1em}
+\begin{figure}[H]
+	\centering
+		\includegraphics[width=9cm]{Fig-A1.jpg}
+	\caption{Топографическая карта и расположение Алеутского желоба}\label{fig:AT1}
+\end{figure}
+
+\end{frame}
+
+\begin{frame}\frametitle{Алеутский желоб}
+\vspace{1em}
+Ключевые моменты геологии и тектоники Алеутского желоба (Аж): 
+\begin{itemize}
+            \item АТ расположен в северной части Тихого океана в районе субдукции Тихоокеанской плиты.
+            \item Тектоника Алеутско-Командорской цепи связана с п-овом Камчатка на мысе Камчатского полуострова.
+            \item На структурную эволюцию области Камчатско-Алеутского сочленения в мезозое и третичном периоде повлияли Кроноцкая зона субдукции и столкновение Кроноцкой дуги с СВ окраиной Евразии. \cite{Gaedicke} 
+            \item Дуга Алеутских островов представляет собой срастающуюся окраину, большая часть которой имеет хорошо развитую фронтальную призму, сформировавшуюся в плио-плейстоцене.
+            \item Центральный Алеутский вулканический фронт сместился на север на 30-60 км после завершения формирования дугового массива в конце эоцена \cite{Yoshida2017}. 
+            \item Алеутская тектоника глубоко связана с ККТ, поскольку Алеутский трансформный разлом отделил блок Кроноцкого террейна от Тихоокеанской плиты \cite{Ekstrom}
+            \item Дно желоба Аж деформируется под воздействием тектонических процессов плит.
+            \item На его формирование влияют различные факторы, среди которых движение тектонических плит, погружение подстилающей плиты в глубокую мантию, сейсмическая активность в районе исследования, напр. подводные землетрясения \cite{Shepard1963}. 
+\end{itemize}	
+
+\end{frame}
+
+\begin{frame}\frametitle{Алеутский желоб}
+
+\begin{figure}[H]
+	\centering
+		\includegraphics[width=8cm]{Fig-A6.jpg}
+	\caption{Профили поперечного сечения Алеутского желоба}\label{fig:AT6}
+\end{figure}
+Профили, построенные в автоматическом режиме, расположены на расстоянии 20 км между каждыми двумя, через каждые 2 км вдоль профилей и имеют общую длину 400 км (т.е. 200 км по обе стороны от желоба). Глубины с диапазоном от -5600 до -5400 м имеют статистическую повторяемость 1106 (8 \%); глубины с диапазоном от -5400 до -5200 м -- 846 (7 \%); глубины с диапазоном от -4900 до -5200 м -- 1297 (11 \%).
+\end{frame}
+
+\begin{frame}\frametitle{Алеутский желоб}
+\vspace{1em}
+\begin{itemize}\footnotesize
+            \item Алеутский желоб (АЖ) имеет удлиненную корытообразную форму. 
+            \item Северо-западная часть АЖ со стороны цепи островов имеет более крутой и короткий уклон с расположенным рядом морских террас. Средний уклон его северной стороны колеблется от 3° до 4°, в то время как на его более мелкой южной стороне - 1° или 2°. 
+            \item Наиболее частое значение глубин в исследуемой области желоба – 4.800 с частотой 1.722. глубины с диапазонами -4900 и -5200 м имеют повторяемость 1.297 (11\%). 
+            \item Самые глубокие значения зафиксированы как -4.900 и -4.700 при 1.722 пробах (13,2\%). 
+            \item Более мелкие значения продемонстрировали мелководные участки с диапазоном глубин от -4500 до -3000 м с промерами менее 200 ( <2,5\%). Значения <-500 м, относятся к шельфовым районам у Алеутских о-вов.
+\end{itemize}	
+
+\begin{figure}[H]
+	\centering
+		\includegraphics[width=10cm]{Fig-A8.jpg}
+	\caption{Статистический анализ профилей, Aж: GMT}\label{fig:AT8}
+\end{figure}
+\end{frame}
+
+\section{Ц}
+
+\begin{frame}\frametitle{Центральноамериканский желоб}
+Центральноамериканский желоб расположен на Кокосовой плите, между хребтом Теуантепек и простирается до хребта Кокос, вдоль от Гватемалы. \\
+Важный геологический исторический контекст касательно Кокосовой плиты (КП):
+\begin{itemize}
+            \item КП - молодая океаническая тектоническая плита, расположенная под Тихим океаном у побережья континента Центральная Америка \cite{Morgan1968}
+            \item КП была создана в результате разделения плиты Фараллон на Наска и КП \cite{TurcotteSchubert2013}
+            \item КП ограничена плитами: Североамериканской, Карибской, Тихоокеанской и Наска \cite{Guzmanetal2006}
+\end{itemize}
+
+\begin{figure}[H]
+	\centering
+		\includegraphics[width=8cm]{Fig-MAT1.jpg}
+	\caption{Топографическая карта и расположение Цж}\label{fig:MAT1}
+\end{figure}
+
+\end{frame}
+
+\begin{frame}\frametitle{Центральноамериканский желоб}
+Основные факты по тектоническим особенностям Цж: 
+\begin{itemize}\small
+            \item Цж состоит из двух отдельных частей с различными особенностями океанической плиты и геологии: северной и южной.
+            \item Разделение между обеими частями проходит по хребту Теуантепек \cite{Aubouinetal1982}
+            \item Северная часть Цж, у побережья Мексики: желоб Акапулько (небольшой), простирается от части Восточно-Тихоокеанского поднятия, от Халиско до хр. Теуантепек.
+            \item Южная часть часть Цж - Гватемальский. желоб (проходит от хр. Теуантепек до хр. Кокос)
+\end{itemize}	
+   
+\begin{figure}[H]
+	\centering
+		\includegraphics[width=6cm]{Fig-MAT5.jpg}
+	\caption{Геологические условия в районе Центральноамериканского желоба}\label{fig:MAT5}
+\end{figure}
+
+\end{frame}
+
+\begin{frame}\frametitle{Центральноамериканский желоб}
+\begin{minipage}[0.4\textheight]{\textwidth}
+\begin{columns}[T]
+\begin{column}{0.45\textwidth}
+\begin{figure}[H]
+	\centering
+		\includegraphics[width=6cm]{Fig-MAT10.jpg}
+	\caption{Профили поперечного сечения Цж}\label{fig:MAT10}
+\end{figure}
+
+\end{column}
+
+\begin{column}{0.5\textwidth}
+\begin{itemize}\small
+            \item Цж (сегмент 94\degree з.д. -87\degree з.д., 11,5\degree с.ш.-15\degree с.ш.) имеет симметричную форму. 
+             \item Морфологическое строение Цж имеет крутую и прямую форму склонов с выражено более крутой передней дугой к стороне океана.
+            \item Выборка глубинных наблюдений имеют значения от -3000 до -6200 м. Дно желоба имеет среднюю ширину 3-5 км. 
+            \item Hазличия в склоне желоба, обращенных к океану и более крутой склон на материковой стороне. В других областях террасы менее четко очерчены. 
+            \item По сравнению с другими желобами Тихого океана, морфология Цж представлена выпрямленными крутыми склонми без значительной кривизны форм.
+            \item Крутой склон на передней части дуги (в направлении к океану) континентального склона. На противоположном склоне геоморфология имеет более пологую форму.
+\end{itemize}	
+\end{column}
+\end{columns}
+\end{minipage}
+
+\end{frame}
+
+\begin{frame}\frametitle{Центральноамериканский желоб}
+
+
+\begin{figure}[H]
+	\centering
+		\includegraphics[width=10cm]{Fig-MAT12.jpg}
+	\caption{Статистический анализ Цж}\label{fig:MAT12}
+\end{figure}
+\begin{itemize}\small
+            \item Самый большой диапазон данных глубины с 1111 записями занимает 25\% выборок.
+            \item Средние выборочные значения: -2 200 и 7,5 \% на высоте от -4 000 до -3 500 м.
+            \item Медианные значения: от -3 200 до -3 300 м.
+            \item Распределение частотных выборок показывает изменения по профилям. Увеличение частоты от -3000 до -4000 м вызвано геологическими условиями плиты Кокос. Основные точки промеров глубин Цж между -3000 и -6200 м.
+ \end{itemize}	
+\end{frame}
+
+\section{ПЧ}
+
+\begin{frame}\frametitle{Перу-Чилийский желоб}
+\begin{minipage}[0.4\textheight]{\textwidth}
+\begin{columns}[T]
+\begin{column}{0.4\textwidth}
+\vspace{1em}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=4.0cm]{Fig-PCT1.jpg}
+\caption{Перу-Чилийский желоб: топографическая карта}\label{fig:PCT1}
+\end{figure}
+\end{column}
+\begin{column}{0.59\textwidth}
+\vspace{2em}
+Основные физико-географические факты Перу-Чилийского желоба: 
+\begin{itemize}\footnotesize
+            \item ПЧж (желоб Атакама) -- самый длинный тихоокеанский желоб (длина 5900 км)
+            \item ПЧж простирается от Эквадора до Чили с 6 \degree ю.ш., 81\degree 50 в.д. to 39\degree ю.ш., 75\degree з.д. 
+            \item Общая площадь ПЧж составляет ок. 590,000 km$^2$. 
+            \item Батиметрия: ПЧж мельче по сравнению с другими тихоокеанскими желобами (ширина 64 км).
+            \item Макс. глубина желоба ПЧж - 8065 м $ => $ т.е. это самый глубокий желоб в южном полушарии Тихого океана
+            \item Желоб является результатом конвергентной границы тектонических плит, где восточный край плиты Наска погружается под континентальную Южно-Амер. плиту. 
+            \item Расположенный в восточной части Тихого океана у берегов Перу и Чили, это самая длинный по географической протяженности глубоководный желоб
+            \item Чилийский сегмент отличается большими глубинами и крутым уклоном на плите Наска, в то время как Перуанский - демонстрирует более пологий рельеф со стороны океана. 
+            \item ПЧж имеет асимметричную форму и структурно состоит из двух частей (Перуанский и Чилийский)
+\end{itemize}	
+\end{column}
+\end{columns}
+\end{minipage}
+\end{frame}
+ 
+ 
+\begin{frame}\frametitle{Перу-Чилийский желоб}
+
+\begin{minipage}[0.4\textheight]{\textwidth}
+\begin{columns}[T]
+\begin{column}{0.4\textwidth}
+\vspace{1em}
+\begin{figure}[H]
+	\centering
+		\includegraphics[width=3.9cm]{Fig-PCT2.jpg}
+	\caption{Тектонико-геологические условия ПЧж \cite{Lemenkova201994}}\label{fig:PCT2}
+\end{figure}
+\end{column}
+
+\begin{column}{0.6\textwidth}
+\vspace{1em}
+Основные факты геологии Перу-Чилийского желоба (ПЧж): 
+\begin{itemize}\small
+            \item ПЧж сформировался в результате субдукции плит Наска и Антарктики под Южноамериканскую.\cite{BelloGonzalezetal2018}. 
+            \item Регион между ПЧж и чилийским побережьем отличают специфические геологические, геотектонические, геоморфологические и климатические условия
+            \item ПЧж подвержен широкому спектру природных катастроф: землетрясения, местные цунами, вулканизм, специфические для континентов опасности (наводнения, оползни, массовые перемещения)
+            \item Пример сильных землетрясений: Вальдивия (Mw=9.5), 1960, Масле (Mw=8.8), 2010. 
+            \item На процессы в зоне разломов в районе ПЧж влияет высокая степень гидратации земной коры и верхней мантии. \cite{Contreras2008}. 
+            \item По условиям осадконакопления ПЧж можно разделить на две основные провинции: 1) основная свободная от наносов провинция, простирающаяся на 8\degree ю.ж.-32\degree ю.ж. и 2) осадочная провинция, простирающаяся на 33\degree ю.ж.-57\degree ю.ж. \cite{Hayes}. 
+ \end{itemize}	
+\end{column}
+
+\end{columns}
+\end{minipage}
+\end{frame}
+
+\begin{frame}\frametitle{Перу-Чилийский желоб}
+\vspace{1em}
+
+\begin{minipage}[0.4\textheight]{\textwidth}
+\begin{columns}[T]
+\begin{column}{0.4\textwidth}
+\begin{figure}[H]
+	\centering
+		\includegraphics[width=5cm]{Fig-PCT5.jpg}
+	\caption{Сегменты оцифровки профилей ПЧж \cite{Lemenkova201994}}\label{fig:PCT5}
+\end{figure}
+\end{column}
+
+\begin{column}{0.4\textwidth}
+\begin{itemize}\footnotesize
+            \item Свыше 50\% глубоководных желобов мира лишены наносов 'или лишь частично заполнены наносами. \cite{Geersenetal2018}. 
+            \item Северный сегмент ПЧж (перуанский) практически лишен осадков, а южный сегмент (чилийский) частично заполнен отложениями \cite{Geersen2019}. 
+            \item Градиент наклона плиты вниз круче в сегменте Чилое по сравнению с сегментом Мауле.\cite{ContrerasReyesetal2013}
+            \item Окраина о. Исла-де-Чилоэ характеризуется значительной степенью осадконакопления по сравнению с другими сегментами ПЧж. 
+            \item Это вызвано распространением турбидитовых отложений в сторону океана до 250 км от оси желоба.\cite{Contreras2007}. 
+            \item Район вблизи тройного сочленения Тайтао лишен наносов и имеет быстрое сужение преддуги \cite{Behrmann}. 
+\end{itemize}		
+\end{column}
+
+\end{columns}
+\end{minipage}
+\end{frame}
+
+\begin{frame}\frametitle{Перу-Чилийский желоб}
+\vspace{2em}
+
+\begin{minipage}[0.4\textheight]{\textwidth}
+\begin{columns}[T]
+\begin{column}{0.45\textwidth}
+\vspace{1em}
+\begin{figure}[H]
+	\centering
+		\includegraphics[width=6cm]{Fig-PCT6.jpg}
+	\caption{Профили поперечного сечения Перу-Чилийского желоба}\label{fig:PCT6}
+\end{figure}
+\end{column}
+
+\begin{column}{0.35\textwidth}
+\small{Основные результаты моделирования ПЧж}: 
+\begin{itemize}\scriptsize
+            \item Наиболее частые глубины для перуанского сегмента колеблются от -4000 до -4 200 (827 образцов) по сравнению с диапазоном от -4 500 до -4 700 м для чилийского сегмента (1410 образцов)
+            \item Перуанский сегмент Перу-Чилийского желоба более глубокий и более крутой с крутыми склонами по сравнению с чилийским сегментом.
+            \item Повторяемость глубин: перуанский (23\%), 1410 (от -4 500 до -4 700 м являются наиболее частыми значениями для перуанского сегмента).
+            \item Соседние диапазоны глубин имеют значительно более низкую частотность данных : 559 (от -4 700 до -5 000 м) и 807 (от -4 200 до -4 400 м) для перуанского сегмента.
+            \item Чилийский сегмент имеет более выровненную морфологию с равномерным распределением глубин (от -6000 до -7000 м).
+ \end{itemize}	
+\end{column}
+
+\end{columns}
+\end{minipage}
+\end{frame}
+
+\section{Х}
+\begin{frame}\frametitle{Желоб Хикуранги}
+\vspace{2em}
+\begin{minipage}[0.4\textheight]{\textwidth}
+\begin{columns}[T]
+\begin{column}{0.4\textwidth}
+\begin{figure}[H]
+	\centering
+		\includegraphics[width=5.0cm]{Fig-H1.jpg}
+		\caption{Топографическая карта района Хикуранги}\label{fig:H1}
+\end{figure}
+
+\begin{itemize}\scriptsize
+  
+            \item Распределение данных равномерно для -600 -- -2600 м ($<60$ для каждого профиля). Общий наклон в сторону о. Северный.    
+            \item о. Южный зажат между «ножницами субдукции».
+\end{itemize}
+            
+\end{column}
+\begin{column}{0.6\textwidth}
+\begin{figure}[H]
+	\centering
+		\includegraphics[width=6.0cm]{Fig-H2.jpg}
+		\caption{Смоделированные профили поперечного сечения желоба Хикуранги}\label{fig:H2}
+\end{figure}
+\begin{itemize}\scriptsize
+            \item Географическое расположение: восточного побережья о. Северный Новой Зеландии, между Ю оконечностью пр. Кука и возв. Чатем
+            \item Тектонически, желоб представляет собой южное продолжение более глубокого желоба Кермадек, т.к. расположен к югу  зоны субдукции Кермадек-Тонга
+            \item Тяжелое океаническое плато Хикуранги погружается под континентальную кору Индо-Австралийской тектонической плиты
+            \item Активные геологические процессы (тектоническая эрозия, андерплейтинг) => повышенная сейсмичность и вулканизм в районе желоба
+             \item  Уникальная тектоническая обстановка региона заключается в соединении 2 зон субдукции («ножницы субдукции»), ориентированной ​​на СЗ: С (Хикуранги) и Ю (Пюйсегюр)
+            \item 2 зоны субдукции соединены косой континентальной коллизией вдоль Альпийского разлома, расположенного на о. Южный.
+            \item Корытообразная форма желоба в поперечном сечении
+ \end{itemize}
+ 
+\end{column}
+\end{columns}
+\end{minipage}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{П}
+
+\begin{frame}\frametitle{Желоб Пюйсегюр}
+\vspace{2em}
+\begin{minipage}[0.4\textheight]{\textwidth}
+\begin{columns}[T]
+\begin{column}{0.4\textwidth}
+\begin{figure}[H]
+	\centering
+		\includegraphics[width=4.5cm]{Fig-P1.jpg}
+		\caption{Тектонико-геологическая карта: желоба Пюисегюр и Хьорт}\label{fig:P1}
+\end{figure}
+\end{column}
+
+\begin{column}{0.6\textwidth}
+\begin{itemize}\scriptsize
+            \item Субдукция Пюйсегюр выраженно наклонная (правосторонняя), направлена ​​на юг.
+            \item Пюйсегюр имеет бимодальный тип распределения данных с двумя четко выраженными вершинами. 
+            \item Первый пик имеет три заметных диапазона c кластерами на диапазонах от -4200 до -4400 м (373 образца, частота данных 18\%), от -4000 до -4200 (182 образца, частота данных 9,6\%) и от -4400 м до -4600 м (216 образцов, частота данных 11,5\%).
+            \item Вторая вершина покрывает диапазон с глубинами от -2200 до -3000 м с частотой данных ниже 7,5\%. Пик соответствует дуге Маккуори, граничащей со склоном желоба.
+            \item Вторая вершина покрывает диапазон с глубинами от -3,200 to -3,000 m (140 образцов). 
+            \item Хьорт: гистограмма имеет классическую форму «колокола» с одним пиком распределения данных в на отметках от -3 300 до -3 500 м (364 промера).
+            \item Морфология желоба Хьорт имеет симметричный характер распределения данных (профиль не наклонный).
+            \item Резкое уменьшение значений выборки с обеих сторон соответствует крутому склону желоба на западном его фланге от плато Хьорт. 
+            \item Абиссальная равнина простирается к В от Пюйсегюр, с небольшими выступами. Морфоструктура особенно хорошо выражена вдоль дуги Маккуори, между 51,5° и 54° с четко выраженными гребнями, напоминающими вытянутые подводные горы на СЗ от Пюйсегюр, перемежающимися небольшими впадинами. 
+            \item В средней части желоба глубины резко увеличиваются от -5.400 до -6.200 м. Распределение данных имеет четкий бимодальный вид для желоба Пюйсегюр с пиками в диапазонах от -4.200 до -4.400 (373 образца) и от -3.200 до -3.000 м (140 образцов).
+\end{itemize}	
+\end{column}
+\end{columns}
+\end{minipage}
+\end{frame}
+
+\begin{frame}\frametitle{Желоб Пюйсегюр}
+\vspace{2em}
+
+\begin{minipage}[0.4\textheight]{\textwidth}
+\begin{columns}[T]
+\begin{column}{0.4\textwidth}
+\begin{figure}[H]
+	\centering
+		\includegraphics[width=5.5cm]{Fig-P2.jpg}
+		\caption{Смоделированные профили поперечного сечения желобов Пюисегюр и Хьорт}\label{fig:P2}
+\end{figure}
+\end{column}
+
+\begin{column}{0.4\textwidth}
+\begin{itemize}\scriptsize
+            \item Желоб Пюйсегюр простирается по дну южной части Тасманова моря, к югу от Новой Зеландии, более чем на 800 км к югу от ЮЗ точки побережья о. Южный. 
+            \item Географически, самая южная протяженность желоба зафиксирована на 400 километров к З от Оклендских о- вов. 
+            \item Тектонически, он образован в результате субдукции Индо-Австралийской плиты под Тихоокеанскую
+            \item К востоку от желоба Пюйсегюр расположено северное продолжение хр. Маккуори. 
+            \item Район вокруг желоба Пюйсегюр характеризуется чрезвычайной сейсмической активностью и вулканизмом, что связано с Альпийским разломом, начинающимся на северном конце желоба.
+            \item Желоб Пюйсегюр имеет асимметричную V-образную форму с крутым уклоном на восточном склоне и пологий склон на западном, соответственно 
+            \item Прилегающий район имеет пологий склон на сторона океана для Хикуранги и крутой склон на восточном фланге для Пюйсегюра, окруженный сложным подводным рельефом вдоль дуги Маккуори. 
+ \end{itemize}	
+\end{column}
+
+\end{columns}
+\end{minipage}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{К}
+
+\begin{frame}\frametitle{Желоб Кермадек}
+\vspace{2em}
+
+\begin{minipage}[0.4\textheight]{\textwidth}
+\begin{columns}[T]
+\begin{column}{0.4\textwidth}
+\begin{figure}[H]
+	\centering
+		\includegraphics[width=6cm]{Fig-TK1.jpg}
+	\caption{Топографическая карта района Новой Зеландии и восточной Австралии и расположение желобов Кермадек и Тонга. \cite{Lemenkova201994}}\label{fig:TK1}
+\end{figure}
+\end{column}
+
+\begin{column}{0.4\textwidth}
+\begin{itemize}\scriptsize
+            \item Желоб Кермадек (ЖК): вытянутый желоб по перевернутой гребневидной форме. 
+            \item Желоб Кермадек расположен в южной части Тихого океана. Он простирается на ок. 1000 км от цепи подводных гор Луисвилл на севере до плато Хикуранги на юге к СВ от о. Северный в Новой Зеландии. 
+            \item Вместе с желобом Тонга на севере он образует ок. 2000 км линейную систему субдукции Кермадек-Тонга с особыми геохимическими условиями, вулканизмом и магматизмом. 
+            \item Субдукция начала развиваться в палеогене (эоцен) при погружении Тихоокеанской плиты под Австралийскую.
+            \item ЖК имеет плавную форму западного склона и резкую форму на восточном фланге с глубинами от -6600 до -6800 м согласно анализу 2641 промеров глубины. 
+            \item Сравнивая самые глубокие значения (> -9000 м) для ЖК, согласно анализу 251 образцов, очевидно, что ЖТ глубже, чем ЖК. Для глубин в диапазоне от -6000 до -5000 м больше значений: 6167 выборок. ЖК имеет пологий склон и небольшую глубину. 
+            \item Окончательный рельеф желобов сформирован в результате совокупности воздействий тектонических и геологических процессов, а также разных процессов осадконакопления, что вызывает особенности их морфоструктур, несмотря на их близкое расположение.
+\end{itemize}	
+\end{column}
+
+\end{columns}
+\end{minipage}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Т}
+
+\begin{frame}\frametitle{Желоб Тонга}
+\vspace{2em}
+
+\begin{minipage}[0.4\textheight]{\textwidth}
+\begin{columns}[T]
+\begin{column}{0.4\textwidth}
+\begin{figure}[H]
+	\centering
+		\includegraphics[width=6cm]{Fig-TK2.jpg}
+	\caption{Сегменты желобов Кермадек и Тонга и тектонико-геологические условия \cite{Lemenkova201994}}\label{fig:TK2}
+\end{figure}
+
+\begin{itemize}\scriptsize
+            \item Тектонические условия - очень быстрое погружение Тихоокеанской плиты под Индо-Австралийскую вдоль ТТ и КТ.
+            \item Конвергенция с максимальной скоростью (249 мм/год) вдоль дуги TK $ => $ одна из самых сейсмически активных зон субдукций в мире \cite{Bevis}
+ \end{itemize}
+\end{column}
+
+\begin{column}{0.4\textwidth}
+\begin{itemize}\scriptsize
+            \item T - второй по глубине желоб в мире (макс. глубина 10 882 м) \cite{Blankenship}. 
+            \item Т продолжает субдукционную систему Кермадек на севере, примерно от 24° ю.ш, где Тихоокеанская плита быстро погружается под Индо-Австралийскую плиту вдоль желоба Тонга-Кермадек в ЮЗ части Тихого океана
+            \item Близость КТ и ТТ к Антарктике $=>$ одни из самых холодных желобов мира \cite{Belyaev}
+            \item KT и TT относятся к зоне биогеохимической провинции Южно-Тихоокеанского субтропического круговорота (South Pacific Subtropical Gyre, SPSG), имеют одинаково повышенный уровень первичной продуктивности 87 г/C м-2/г. \cite{Xuetal2018}
+            \item Оси желобов отклонены примерно на 30\degree от линии долготы.
+            \item KT находится в 120 км от Новой Зеландии с продолжением оси. 26\degree S -- 36\degree S \cite{Duncan}
+            \item KT - пятый по глубине желоб в мире, максимальная глубина - 10,177 м, длина 1500 км \cite{Jamiesonetal2011}
+            \item KT проходит параллельно хребту Кермадек с геоморфологией V-образной формы, образованной тектонической субдукцией Тихоокеанской плиты под Индо-Австралийскую плиту. \cite{LeducRowden2018}
+            \item К простирается от ок 26\degree ю.ш. до 36\degree ю.ш. у СВ оконечности о. Северный Новой Зеландии.
+ \end{itemize}	
+\end{column}
+
+\end{columns}
+\end{minipage}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{Желоба Тонга и Кермадек}
+\vspace{2em}
+\begin{minipage}[0.4\textheight]{\textwidth}
+\begin{columns}[T]
+\begin{column}{0.4\textwidth}
+\begin{figure}[H]
+	\centering
+		\includegraphics[width=6cm]{Fig-TK3.jpg}
+	\caption{Профили желобов Тонга и Кермадек \cite{Lemenkova201994}}\label{fig:TK3}
+\end{figure}
+
+\begin{itemize}\scriptsize
+            \item Общая протяжённость ЖТ - 860 км. 
+            \item Простирается вдоль подножия восточного склона одноимённого подводного хребта от о. Самоа и жёлоба Кермадек.
+ \end{itemize}
+\end{column}
+
+\begin{column}{0.4\textwidth}
+\begin{itemize}\scriptsize
+            \item Желоб Кермадек имеет меньшую глубину (10 047 м) по сравнению с Тонга (10 882), несмотря на близкое расположение. 
+            \item Сравнение самых глубоких значений (> -9000 м) показывает для ЖТ 320 оцифрованных промеров на данных глубинах. 
+            \item Сравнивая варианты глубин дна в диапазоне от -6000 до -5000 м, можно отметить, что ЖТ имеет 4803 выборок. 
+            \item Автоматическая оцифровка профилей поперечного сечения показали, что геоморфология ЖТ имеет более крутой уклон на западном фланге. 
+            \item Результаты показывают большие значения глубин, неровность дна и крутой уклон профилей для ЖT по сравнению с ЖК
+            \item Базальтовые лавы, извлеченные из верхней коры входящей литосферы по длине желоба Тонга, имеют средне- и позднемеловой возраст, в основном представленyst N-MORB, варьируются от толеитовых до щелочных базальтов. 
+            \item Самая активная зона мантийной сейсмичности Земли возникает в результате субдукции Тихоокеанской плиты в районе  желоба Тонга, причем до сих пор неизвестно, почему именно здесь намного больше землетрясений, чем в местах других погружающихся плиты в мире
+ \end{itemize}	
+\end{column}
+
+\end{columns}
+\end{minipage}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{Желоба Тонга и Кермадек}
+Характерные особенности и различия желобов Тонга и Кермадек: 
+\begin{itemize}\small
+            \item ТТ имеет меньшие глубины в восточной части, но КТ имеет более крутые очертания с 2641 рекордами глубин от -6,600 до -6,800м.. 
+            \item Геоморфология ТТ имеет более крутой уклон на западном фланге. 
+            \item Самые глубокие значения TT $>9,000$m: 320 образцов глубин
+            \item Однако в частотном смысле, Т имеет больше промеров с большими абсолютными глубинами, чем К: самые глубокие значения $>9,000$m: 251 образцов $=>$  TT глубже, чем KT, тогда как КТ доминирует в смысле абсолютной точки глубины.
+            \item У KT больше значений в этом диапазоне: 6167 отсчетов. Для ТТ тот же диапазон дает 4803.
+            \item КТ имеет более пологую форму склона и меньшую глубину западного склона у хребта Тонга.
+            \item Под желобом Кермадек малая толщина коры (всего 4,5 км)
+            \item Полоса вулканических о-вов Тонга и Кермадек особенно интересна своей геометрией: она совершенно прямолинейная, хотя и образовалась в результате разновре­менного расширения трех морей: Тасманова, Фиджи и Лау.
+            \item Вариации глубины дна от -6000 до -5000.
+            \item У о-ов Тонга глубоководный желоб находится с внешней стороны островной дуги, а зона Беньофа наклонена в сторону континента, Северо-Фиджийская котловина ока­зывается окаймленной с двух сторон зонами Беньофа, падаю­щими навстречу друг другу.
+            \item Различия между KT и TT иллюстрируют тектонические и геологические региональные условия $=>$ различную седиментацию KT и TT $=>$ различную морфоструктуры, несмотря на близкое расположение         
+            \item К югу от желоба К-Т от мелководья Новозеландского подводного плато, К-Т переходит по про­стиранию в типичный передовой прогиб Хикуранги, заполнен­ный мощными осадками.
+\end{itemize}	
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Вн}
+
+\begin{frame}\frametitle{Желоб Вануату (Новогебридский)}
+\begin{minipage}[0.4\textheight]{\textwidth}
+\begin{columns}[T]
+\begin{column}{0.5\textwidth}
+\vspace{2em}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=6.0cm]{Fig-VV1.jpg}\caption{Топографическая карта желобов Вануату и Витязь}
+	\label{fig:VV1}
+\end{figure}
+\begin{itemize}\small
+           \item Профиль желоба Вн: V-образный, поперечный, огибает с З и Ю острова Новые Гебриды, имеет длину около 2000 км. Геоморфология: дно неширокое, местами плоское, разделено на части порогами. Максимальная глубина 9165 м. 
+          
+\end{itemize}	
+\end{column}
+
+\begin{column}{0.5\textwidth}
+\vspace{2em}
+Ключевые факты по желобу Вануату: 
+\begin{itemize}\small
+            \item Желоб Вануату расположен в ЮЗ части Тихого океана, в бассейне Фиджи, восточная Австралия, на окраине Кораллового моря, между о. Вануату и Новая Каледония. 
+            \item Желоб Вануату  превышет глубины ок. 7600 м. Желоб составляет около 1200 км в длину и 70 км в ширину, простирается вокруг южной оконечности Вануату, образуя диагональную симметрию с северным концом близлежащего желоба Тонга. 
+            \item Вулканическая островная дуга является источником регионального магматизма и вулканизма
+            \item Дуга Вануату простирается на ок. 1200 км на ЮЗ Тихого океана, 10\degree ю.ш.-23\degree ю.ш., 160\degree в.д.-180\degree в.д.
+	    \item Островодужная система Вануату разделяет задуговые впадины Новогебридских о-вов и активную окраинную впадину сев. Фиджи.
+\end{itemize}
+\end{column}
+\end{columns}
+\end{minipage}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Вт}
+
+\begin{frame}\frametitle{Желоб Витязь}
+\begin{minipage}[0.4\textheight]{\textwidth}
+\begin{columns}[T]
+\begin{column}{0.5\textwidth}
+\vspace{2em}
+\begin{figure}[H]
+	\centering
+		\includegraphics[width=6cm]{Fig-VV2.jpg}
+	\caption{Геологическая карта и тектоническая обстановка желобов Вануату и Витязя}\label{fig:VV2}
+\end{figure}
+Тектоника региона: двойная конвергентная сложная граница тектонических плит: 1) Тихоокеанская плита субдуцирует под И-А плиту в З направлении; 2) И-А плита субдуцирует в СВ напрвлении под задуговую котловину сев. Фиджи.
+\end{column}
+
+\begin{column}{0.5\textwidth}
+\vspace{2em}
+Тектоника региона желоба Витязь (некоторые факты):
+\begin{itemize}\small
+            \item Желоб Вт сформирован в сложной тектонической обстановке (субдукция плит)
+            \item Конвергенция тектонических плит отмечена двумя зонами субдукции, ориентированными в противоположных направлениях: Вт (западная) и желоб Тонга (восточная)
+            \item Это приводит к асимметричному раскрытию задугового бассейна северных Фиджи.
+            \item Субдуцирующая ИАП и хребет Д'Энтрекасто, соединяющий хр. Новая Каледония с желобом Вануату. $ => $ система "желоб-островная дуга" 
+            \item Морфология южной части дуги желоба Вануату и котловины северного Фиджи указывают на геодинамическую сложность, тектоническую активность и геологическую нестабильность региона.
+            \item Действующий активный стратовулкан на г. Ясур (Mt. Yasur) расположен на о. Тана (Tanna Island) дуги Вануату.
+ 
+\end{itemize}
+\end{column}
+\end{columns}
+\end{minipage}
+\end{frame}
+
+\begin{frame}\frametitle{Желоба Вануату и Витязь}
+\begin{minipage}[0.4\textheight]{\textwidth}
+\begin{columns}[T]
+\begin{column}{0.5\textwidth}
+\vspace{2em}
+\begin{figure}[H]
+	\centering
+		\includegraphics[width=6cm]{Fig-VV9.jpg}
+	\caption{Оцифрованные разрезы желобов Вануату и Витязь}\label{fig:VV9}
+\end{figure}
+Сложная геофизическая обстановка, высокая сейсмичность, тектоническая активность => геологическая нестабильность региона Фиджи-Лау
+\end{column}
+
+\begin{column}{0.5\textwidth}
+\vspace{2em}
+Сравнительный анализ моделирования желобов Витязь и Вануату: 
+\begin{itemize}\small
+            \item Вт имеет более плоское широкое дно, типичное для трога, с более крутым уклоном на восточном фланге
+            \item Вн имеет более V-образную классическую форму типичную для желоба, с пологими формами как на западных, так и на восточных склонах
+            \item Вт имеет меньшую глубину: его максимальная глубина не превышает -5000 м, тогда как Вн - более глубокий желоб с -6000 м 
+            \item Окружающий рельеф желобов варьируется: для ЖВит прилегающая абиссальная равнина имеет выположенный рельеф, в то время как для ЖВан окружен более сложным подводным рельефом бассейна северного Фиджи (восточный фланг), так и западного побережья.
+            \item Восточный фланг Вн окружен сложным подводным рельефом бассейна Северных Фиджи
+\end{itemize}
+\end{column}
+\end{columns}
+\end{minipage}
+\end{frame}
+
+
+\begin{frame}\frametitle{Желоба Вануату и Витязь}
+\vspace{1em}
+\begin{figure}[H]
+	\centering
+		\includegraphics[width=10.0cm]{Fig-VV10}
+		\caption{Гистограммы (распределение данных глубин) оцифрованных разрезов желобов Вануату (Новые Гебриды) и Витязя}\label{fig:VV10}
+\end{figure}
+%\vspace{2em}
+	Основные результаты статистического анализа желобов Вт и Вн:
+\begin{itemize}
+            \item Батиметрия желоба Вт: глубины <-6 100 м; Вн достигает -7000 м.
+            \item Вт: «колоколообразная» форма с 2 пиками: от -3 500 до -3 700 м и от -4 800 до -5 000 м. Большинство значений находятся в диапазоне от -5000 до -3000 м.
+            \item Здесь отмечено 1605 отборов точек глубин (517, 653 и 435). Из них первый пик имеет значения глубин от -3300 до -4000 и 839 наблюдений (238, 304, 297) и далее на глубинах от -4500 до -5200 м.
+            \item Вн: распределение данных даже при небольшом увеличении глубин \\от -2 200 до -800 м (всего 1353 оцифрованных точки глубин)
+\end{itemize}
+\end{frame}
+
+% ----------------------------------------------------------------------------
+% *** Новобританский Желоб <<<
+% ----------------------------------------------------------------------------
+\section{НБ}
+
+\begin{frame}\frametitle{Новобританский Желоб (Бугенвильский)}
+\vspace{2em}
+
+\begin{minipage}[0.4\textheight]{\textwidth}
+\begin{columns}[T]
+\begin{column}{0.4\textwidth}
+\begin{figure}[H]
+	\centering
+		\includegraphics[width=5.7cm]{Fig-NBT1.jpg}
+	\caption{Топографическая карта и расположение желобов Новобританского и Сан-Кристобаля}\label{fig:NBT1}
+\end{figure}
+\begin{itemize}\footnotesize
+	   \item Бассейн Вудларк (б.В.), расположенный к Ю от дуги Соломоновых о-вов - молодой (5 М) океанический бассейн, который погружается под НБж; б.В. субдуцирует под дугу Соломоновых о-вов, образуя двустороннюю зону субдукции \cite{Yoneshimaetal2005}.
+	   \item Этот регион является одной из немногих зон субдукций в мире, где погружается молодая плита (5 М лет)
+\end{itemize}
+\end{column}
+
+\begin{column}{0.47\textwidth}
+\small{Ключевые факты по геологии и тектонике:}
+\begin{itemize}\footnotesize
+	   \item Географически расположен в Соломоновом море, на ЮЗ Тихого океана, между о. Папуа-Новой Гвинея и Соломоновыми о-вами: 
+            \item НБж (Бугенвильский желоб) определяется изолинией 6000 м \cite{Mammerickx}
+            \item Это узкий желоб шириной 50-75 км, простирается на СВ от В конца залива Хуон (Huon Gulf) вдоль Ю побережья Новой Британии \cite{Mammerickx}
+            \item Название происходит от о. Новая Британия дуги Новой Британии.
+            \item Сев. часть характеризуется задуговым бассейном моря Бисмарка, где происходит активный рифтогенез и спрединг морского дна \cite{Lindley2006}. Зап. продолжение: зона разлома Раму-Маркхам, простирающаяся на С, дуга Западного Бисмарка \cite{Abbott1994}
+            \item Задуговая впадина моря Бисмарка включает Южную и Северную микроплиты Бисмарка, разделенные разломом моря Бисмарка \cite{Taylor1979}
+            \item Острова вост. части о. Папуа-Новой Гвинеи и Соломоновы о-ва представляют собой островодужные террейны, окружающие \\НБж; образуются рядом с границей \\между Австралийской и \\Тихоокеанской тектоническими плитами.
+\end{itemize}		
+\end{column}
+
+\end{columns}
+\end{minipage}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}\frametitle{Новобританский Желоб (Бугенвиль)}
+\vspace{2em}
+
+\begin{minipage}[0.4\textheight]{\textwidth}
+\begin{columns}[T]
+\begin{column}{0.4\textwidth}
+\begin{figure}[H]
+	\centering
+		\includegraphics[width=6cm]{Fig-NBT6.jpg}
+	\caption{Поперечные профили желобов Ново-Британский и Сан-Кристобаль}\label{fig:NBT6}
+\end{figure}
+\footnotesize{В целом, НБж более мелкий по сравнению с СКж: его медианные значения не превышают -7000 м (по ср. с медианным -8000 м для СКж).} 
+\end{column}
+
+\begin{column}{0.38\textwidth}
+\small{Сравнительный анализ рельефа желобов Ново-Британский и Сан-Кристобаль:}
+\begin{itemize}\footnotesize
+            \item СКж имеет угол наклона 33\degree в сторону океана и 33,69\degree в сторону суши, увеличиваясь в глубинах более отчетливо со стороны океана.
+            \item НБж имеет более асимметричное U-образное поперечное сечение с градиентом на запад с наклоном 35\degree на восток и 41\degree на запад.
+            \item Увеличение глубины для НБж более плавное по сравнению с СКж : на отрезке 50 км достигает оно глубин 2000 м (от -7000 до -5000).
+            \item Наоборот, увеличение для SCT более резкое: на том же расстоянии (50 км) глубины уменьшаются с -8 000 до -5 200 м (т.е. градиент ок. 3000 м). 
+            \item НБж имеет пологий склон на берегу Соломонова моря. НБж заметно асимметричен на склоне в сторону суши и имеет дугообразную форму на восточном фланге
+\end{itemize}	
+\end{column}
+
+\end{columns}
+\end{minipage}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% ----------------------------------------------------------------------------
+% *** Сан-Кристобаль <<<
+% ----------------------------------------------------------------------------
+
+\section{СК}
+
+\begin{frame}\frametitle{Желоба Сан-Кристобаль и Новобританский}
+\vspace{2em}
+
+\begin{minipage}[0.4\textheight]{\textwidth}
+\begin{columns}[T]
+\begin{column}{0.45\textwidth}
+\begin{figure}[H]
+	\centering
+		\includegraphics[width=6cm]{Fig-NBT2.jpg}
+	\caption{Тектонико-геологические условия района желобов Сан-Кристобаль и Новобританский}\label{fig:NBT2}
+\end{figure}
+\footnotesize{НБж и СКж расположены к востоку от о. Папуа-Новая Гвинея, как северные границы Соломонова моря в Тихом океане. Регион относится к одним из наиболее перспективных для интрузивных месторождений полезных ископаемых.}
+\end{column}
+
+\begin{column}{0.45\textwidth}
+\small{Геолого-географические условия НБж и СКж:}
+\begin{itemize}\footnotesize
+             \item Регион является одной из активных зон субдукции в мире, в зоне тройного сочленения Тихоокеанской, Индо-Австралийской плит и микроплиты Соломонова моря.
+              \item СКж тянется в ЮВ направлении от Новой Британии вдоль группы Соломоновых о-вов Бугенвиль, Шуазель, Санта-Исабель, Малаита, о. Сан-Кристобаль
+             \item Бассейн Вудларк - молодой океанический бассейн (ок. 5 млн лет). Субдуция проходит под дугу НБж и Соломоновы о-ва, образуя двустороннюю зону субдукции. Он примыкает к СКж к ЮЗ и ЮВ от дуги Соломоновых о-вов.
+            \item Восточная часть микроплиты Соломонова моря, граничащая с СКж, входит в переднюю часть субдуцирующей Тихоокеанской плиты, что приводит к сильным землетрясениям вдоль границы Соломонова моря.
+            \item Регион расположен в сложной зоне конвергенции тектонических плит и \\зажат между сходящимся плато \\Онтонг Ява и Австралийским \\континентом.
+\end{itemize}	
+\end{column}
+
+\end{columns}
+\end{minipage}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{Желоба Сан-Кристобаль и Новобританский}
+\vspace{2em}
+
+\begin{minipage}[0.4\textheight]{\textwidth}
+\begin{columns}[T]
+\begin{column}{0.4\textwidth}
+\begin{figure}[H]
+	\centering
+		\includegraphics[width=6.5cm]{Fig-NBT5.jpg}
+	\caption{Оцифрованные сегменты желобов Сан-Кристобаль и Новобританский (Бугенвиль)}\label{fig:NBT5}
+\end{figure}
+\footnotesize{Глубины НБЖ постепенно увеличиваются в сегменте от -50 до 0 м на профиле в поперечного сечения желоба, и уменьшаются на диапазоне от -3.000 до -7.000 в З направлении, достигая макс. глубин -8.000 м. при среднем значении -7.000 м}
+\end{column}
+
+\begin{column}{0.38\textwidth}
+\vspace{2em}
+\begin{itemize}\footnotesize
+            \item НБЖ более мелкий по сравнению с ЖСК имея глубины в среднем <-7000 м. 
+            \item На графике поперечного сечения НБж заметно асимметричен и имеет наклон в сторону суши, дугообразный на востоке. 
+            \item Самые высокие значения выборки регистрируются в диапазоне глубин от -5000 до -5200 м, (272 образцов), за которыми постепенно следует диапазон глубин от -5200 до -5000, далее от -5000 до -4800 и от -4.800 до -4.600 м (кол-во точек: 204, 189, 157, соответственно для этих диапазонов). 
+            \item Увеличение глубины НБж имеет постепенный плавный характер: на отрезке 50 км достигая -2000 м на фланге со стороны Соломонова моря 
+            \item Гистограмма НБж имеет усеченный вид по правому флангу желоба с преобладающими значениями на малых глубинах и уменьшающимися <-5.000 m по сравнению с \\нормальным распределением \\данных СКж.
+ \end{itemize}	
+\end{column}
+
+\end{columns}
+\end{minipage}
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{Желоба Сан-Кристобаль и Новобританский}
+\vspace{2em}
+
+\begin{minipage}[0.4\textheight]{\textwidth}
+\begin{columns}[T]
+\begin{column}{0.4\textwidth}
+\begin{figure}[H]
+	\centering
+		\includegraphics[width=5.7cm]{Fig-NBT7.jpg}
+	\caption{Гистограммы профилей поперечного сечения НБж и СКж}\label{fig:NBT7}
+\end{figure}
+\end{column}
+
+\begin{column}{0.45\textwidth}
+\footnotesize{Основные результаты моделирования желобов Новобританского и Сан-Кристобаль:}
+\begin{itemize}\footnotesize
+            \item Несмотря на географическое соседство желобов наблюдается явная изменчивость глубин по образцам в их профилях. 
+            \item СКж, в целом, глубже, достигая -9000 м, в то время как медиана для НБж <-7000 м. 
+            \item Наклон градиента СКж имеет более симметричную форму  с более точной V-образной формой.
+            \item Крутизна склона НБж: западный фланг -- 35\degree , восточный фланг -- 41\degree на запад, тогда как наклон СКж имеет 33\degree на океанском фланге и 33,69\degree -- на материковом.
+            \item На графике поперечного сечения склон НБж к суше имеет заметно асимметричную U-образную форму и серповидную форму на восточном сегменте
+            \item Различия морфоструктур между желобами объясняются совокупностью процессов: историко-геологические этапы эволюции региона  и фактические тектонические движения 
+            \item Скорость движения слэбов, вулканизм, сейсмическая обстановка, разрывные нарушения (сбросы, сдвиги, разрывы), процессы осадконакопления повлияли на формирование морфоструктур.
+            
+\end{itemize}
+\end{column}
+
+\end{columns}
+\end{minipage}
+\end{frame}
+
+% ----------------------------------------------------------------------------
+% *** START Philippine Trench <<<
+% ----------------------------------------------------------------------------
+\section{Ф}
+
+\begin{frame}\frametitle{Филиппинский желоб}
+\begin{minipage}[0.4\textheight]{\textwidth}
+\begin{columns}[T]
+\begin{column}{0.5\textwidth}
+\vspace{1em}
+\begin{figure}[H]
+	\centering
+		\includegraphics[width=5.0cm]{Fig-Ph2.jpg}
+	\caption{Сейсмическая обстановка на окраинах плиты Филиппинского моря}\label{fig:TK1}
+\end{figure}
+\scriptsize{ПФМ субдуцирует под Филиппинский архипелаг (4°-15°с.ш.), который является частью зоны конвергенции Евразийской плиты (блок Сунда) и ПФМ. Погружение ПФМ вызывает высокоскоростную аномалию в районе ФЖ. \\ Литологический состав: присутствие перидотитов, габбро, массивных и подушечных потоков мезозойских офиолитов}
+\end{column}
+\begin{column}{0.6\textwidth}\scriptsize
+\vspace{2em}
+\begin{itemize}
+            \item Филиппинский желоб (ФЖ), один из глубочайших в мире, расположен на оси столкновения плиты Филиппинского моря (ПФМ) и Зондской плиты, западной части Тихого океана в Филиппинском море (ФМ)
+            \item Рельеф дна ФМ имеет черты переходной зоны с крупными геоморфологическими формами и осадконакоплением
+            \item Строение котловины моря сложное, сравнимое с ложем Тихого океана по разнообразию морфостркктур: здесь отмечены подводные горы, хребты большой протяженности, подводные вулканы, гийоты
+            \item Сейсмические явления ПФМ можно объяснить как результат тектонических процессов на краях литосферных плит, которые расходятся на океанских хребтах по крупным сдвигам и сходятся у горячих и слабых вулканических островных дуг ИБМ и Филиппин
+            \item Карта сейсмичности в зоне бассейна ФМ показывает, что большинство землетрясений ограничиваются краевыми областями, представляющими узкие, непрерывные ленты вокруг больших стабильных участков ПФМ
+            \item Тектоника региона отличается дивергенцией и конвергенцией плит в умеренной зоне дивергенции плит, включая глубокие толчки на малых глубинах в зоне схождения плит
+            \item Сейсмические данные о механизмах очага представлены в каталоге Centroid Moment Tensor (CMT), который дает относительное направление движения тектонических плит по всему сейсмически активному поясу
+            \item Фокальные механизмы указывают на относительные движения литосферных плит, определяемые по магнитным и топографическим данным, связанным с зонами дивергенции плит
+            \item Смешанные осадочно-консолидированные породы дна желоба сформированы подводной эрозией из области абиссальной\\ равнины, расположенной вблизи и перенесенной в ФЖ
+            \item Подводные каньоны, способствующие формированию \\подводных течений и осадконакоплению \\в тальвеге желоба
+\end{itemize}
+
+\end{column}
+\end{columns}
+\end{minipage}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}\frametitle{Филиппинский желоб}
+\begin{minipage}[0.4\textheight]{\textwidth}
+\begin{columns}[T]
+\begin{column}{0.5\textwidth}
+\vspace{1em}
+\begin{figure}[H]
+	\centering
+		\includegraphics[width=5.0cm]{Fig-Ph1.jpg}
+	\caption{Продольно-поперечный профиль Филиппинского желоба}\label{fig:TK1}
+\end{figure}
+\end{column}
+\begin{column}{0.6\textwidth}\footnotesize
+\vspace{2em}
+\begin{itemize}
+            \item Морфология ФЖ отмечена сложным взаимодействием трех литосферных плит: Евразийской, Австралийской и ПФМ, который включает столкновение, субдукцию и аккрецию. Древняя, тяжелая и большая ($103,300,000^2$) Тихоокеанская плита играет
+главную роль по сравнению с Австралийской плитой ($47,000,000^2$) и ПФМ $5,500,000^2$. 
+            \item ФЖ имеет классическую симметричную колоколообразную форму распределения данных глубин, показывающих распределение по глубинам с заметным резким увеличением частоты передачи данных на интервале от -5.000 до -6.000 м: 1.117 точек ( 37\% данных). Это свидетельствует о резком постепенном уменьшении глубин.
+            \item Из-за расположения в месте коллизии Филиппинской и Зондской тектонических плит Филиппинского разлома в его динамике присутствует движение: 
+            \begin{itemize}\footnotesize
+	            \item CP субдукция плиты ФМ, которая частично поглощается субдукцией первой и ФЖ, который движется на запад,
+	            \item прогиб Восточного Лусона, расположенный на СВ, 
+	            \item деформация земной коры вдоль Филиппинского разлома, возникшего на о. Лусон в период эоцена. В частности, по разлому обнаруживается левосторонний сдвиг Филиппинского архипелага от СЗ угла о. Лусон до ЮВ оконечности о. Минданао
+	            \item Филиппинский разлом. 
+	    \end{itemize}
+            \item Вместе с геологическими факторами, \\тектоническая нестабильность плиты ФМ \\вызывает изменения в \\морфоструктуре желоба.
+\end{itemize}
+
+\end{column}
+\end{columns}
+\end{minipage}
+\end{frame}
+
+% ----------------------------------------------------------------------------
+% *** END Philippine Trench <<<
+% ----------------------------------------------------------------------------
+
+\section{Мн}
+
+\begin{frame}\frametitle{Манильский желоб}
+
+\begin{minipage}[0.4\textheight]{\textwidth}
+\begin{columns}[T]
+\begin{column}{0.5\textwidth}
+\vspace{2em}
+\begin{figure}[H]
+	\centering
+		\includegraphics[width=6.0cm]{Fig-M1.jpg}
+	\caption{Топографическая карта региона Южно-Китайского моря и Манильского желоба}\label{fig:TK1}
+\end{figure}	
+\footnotesize{Манильский желоб (Мнж) расположен к западу от о. Лусон и Миндоро (Филиппины). Достигает глубин ок. 5400 м \cite{Liuetal2007}, при средней глубине Южно-Китайского моря ок. 1500 м.}
+
+\end{column}
+\begin{column}{0.5\textwidth}
+\vspace{2em}
+	Тектонико-геологическая обстановка: 
+\begin{itemize}\footnotesize
+            \item Создается субдукцией, при которой плита Зондская (часть Евразийской) погружается под Филиппинскую (начало в среднем миоцене (22-25 млн. лет назад)
+            \item Субдукция образует желоб с почти меридиональным Ю-С простиранием, с высокой скоростью погружения плиты \cite{Lo2017}
+            \item Конвергентная граница заканчивается на севере зоной столкновения с о. Тайвань, а на юге - террейном Миндоро (блок Сулу-Палаван, сталкивающийся с юго-западом Лусона).
+            \item Регион характеризуется активными тектоническими движениями, в т.ч. частые цунами и землетрясения. \cite{Wu2009}
+            \item Сейсмичность: характерные природные опасности в регионе: частые разрушительные цунами, вызванные погруженияем Евразийской плиты $ => $ катастрофические разрушения вдоль береговой линии острова Лусон.
+            \item Геофизические условия: отрицательная гравитационная аномалия (от -50 мГал до -200 мГал, по данным аномалий силы тяжести в редукции Фая, EGM-2008). \\Для сравнения: большинство значений\\ в Южно-Китайском море \\-- в диапазоне 10--30 мГал, \\значения >60 мГал -- в островных районах \\и южных Филиппинах. 
+            
+\end{itemize}
+\end{column}
+\end{columns}
+\end{minipage}
+\end{frame}
+
+\begin{frame}\frametitle{Манильский желоб}
+
+\begin{figure}
+    \centering
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        		\includegraphics[width=1.1\textwidth]{Fig-M6a.jpg} % first figure itself
+        \caption{Профили продольно-поперечного сечения}
+    \end{minipage}\hfill
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \vspace{1em}
+        		\includegraphics[width=0.9\textwidth]{Fig-M6b.jpg} % second figure itself
+        \caption{Сегменты желоба}
+    \end{minipage}
+\end{figure}
+
+\vspace{1em}
+	Сопоставление профилей разрезов Манильского желоба (С и Ю): 
+\begin{itemize}\small
+            \item Южный сегмент имеет более крутой уклон в сторону океана
+            \item Северный сегмент показывает более крутой уклон на континентальной части склона.
+            \item Подводные террасы расположены в северной части желоба на глубине -2000 м.
+            \item На фрагменте профиля на отметках глубин от -1,100 до -1,300 м видна постепенно наклонная терраса на Ю сегменте желоба  
+            \item Северный сегмент желоба более мелкий по сравнению с южным, \\но имеет более крутой склон на стороне о. Лусон.
+\end{itemize}
+
+\end{frame}
+
+% ----------------------------------------------------------------------------
+% *** Желоб Рюкю <<<
+% ----------------------------------------------------------------------------
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Р}
+\begin{frame}\frametitle{Желоб Рюкю}
+\begin{minipage}[0.4\textheight]{\textwidth}
+\begin{columns}[T]
+\begin{column}{0.5\textwidth}
+\vspace{2em}
+\begin{figure}[H]
+	\centering
+		\includegraphics[width=6.0cm]{Fig-R1.jpg}
+	\caption{Топографическая карта региона желоба Рюкю}\label{fig:R1}
+\end{figure}
+\small{Желоб Рюкю простирается с СВ на ЮЗ вдоль островной дуги Рюкю, задугового бассейна и впадины Окинавского прогиба}
+\end{column}
+\begin{column}{0.5\textwidth}
+\vspace{2em}
+	Основные факты о желобе Рюкю (жР):
+\begin{itemize}\small
+            \item Географически, жР простирается на 1400 км, расположен в субтропической регионе Тихого океана между Филиппинским морем, о. Тайвань и о. Кюсю, южная Япония \cite{Ando}.
+            \item Тектонически, образовался в результате субдукции океанической коры Филиппинского моря под континентальную кору Евразийской плиты \cite{Doo}. 
+            \item Желоб сформировался в условиях погружения океанической коры плиты Филиппинского моря под континентальную кору Евразийской плиты. Батиметрия его варьируется в С и Ю сегментах
+            \item Северный сегмент отличается небольшой глубиной и крутизной, достигает ок. 11\degree в результате субдукции Филиппинской плиты 
+            \item Южный сегмент: угол становится круче, достигая 70\degree ниже ок. 70 км.
+\end{itemize}
+\end{column}
+\end{columns}
+\end{minipage}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{Желоб Рюкю}
+\begin{minipage}[0.4\textheight]{\textwidth}
+\begin{columns}[T]
+\begin{column}{0.5\textwidth}
+\vspace{1em}
+\begin{figure}[H]
+	\centering
+		\includegraphics[width=6.0cm]{Fig-R2.jpg}
+	\caption{геологическая карта региона желоба Рюкю}\label{fig:TK1}
+\end{figure}	
+\footnotesize{жР достигает глубин 7000 м; преддуговый склон между цепью островов и жР имеет ширину 130-160 км.}
+\end{column}
+
+\begin{column}{0.5\textwidth}
+\vspace{2em}
+	Основные факты по геологии Рюкю: 
+\begin{itemize}\small
+            \item система двойной субдукции жР в регионе: Тихоокеанская плита субдуцирует под Филиппинскую, которая, в свою очередь, субдуцирует под Евразийскую вдоль жР \cite{Faccennaetal2018}.
+             \item Группа северных о-вов: Яку-шима и Танэга-шима и 200-километровый проход в проливе Токара между группами островов  \cite{Okamura}.
+            \item Сложные тектонические условия региона Рюкю отражают эволюционные геологические процессы Земной коры, формируя систему "желоб-островная дуга", а также краевой вал и серию подводных гор
+            \item Вариации в региональных геологических условиях образования дна океана в течение J, M и C отражены в особенностях морфоструктуры желоба, стратиграфии горных пород, литологической структуре осадочного чехла 
+\end{itemize}
+\end{column}
+\end{columns}
+\end{minipage}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{Желоб Рюкю}
+\vspace{2em}
+
+\begin{minipage}[0.4\textheight]{\textwidth}
+\begin{columns}[T]
+\begin{column}{0.4\textwidth}
+\begin{figure}[H]
+	\centering
+		\includegraphics[width=3.8cm]{Fig-R6.jpg}
+	\caption{Моделирование профилей желоба Рюкю}\label{fig:R6}
+\end{figure}
+\end{column}
+
+\begin{column}{0.73\textwidth}
+\begin{itemize}\footnotesize
+            \item Существенные отличия в батиметрии С и Ю частей желоба для глубин > 6000 м.
+            \item Батиметрия преддугового бассейна в диапазонах  >2000 м и <1000 м: больше точек на северном сегменте, чем на южном.
+            \item Медианный сложенный профиль на Ю сегменте демонстрирует более пологую форму склона с подводными террасами
+            \item На сев. сегменте траншеи увеличивается глубина склона преддуги.
+            \item Наблюдаются различия в диапазонах глубин вдоль дуги Рюкю: от -5 500 до -5 700 м для северного сегмента (334 выборки).
+            \item Южный сегмент: сопоставимые значения (329 образцов) для того же диапазона глубин.
+            \item В преддуговом бассейне глубиной > 2000 м и < 1000 м под уровнем моря показано больше данных проб в северной части желоба, чем в южной. Напротив, широкая терраса с глубиной < 25 м показывает больше проб (161) в Ю части желоба. 
+            \item Сравнение между двумя пространственно разными сегментами желоба показывают, что С часть желоба имеет более глубокие отметки глубин по сравнению с Ю. 
+            \item Это также можно отметить в глубоководной зоне, простирающейся в сторону моря от разлома Мияко, где зафиксированы самые глубокие значения.
+  
+\end{itemize}	
+\end{column}
+
+\end{columns}
+\end{minipage}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{Желоб Рюкю}
+\vspace{2em}
+
+\begin{minipage}[0.4\textheight]{\textwidth}
+\begin{columns}[T]
+\begin{column}{0.4\textwidth}
+\begin{figure}[H]
+	\centering
+		\includegraphics[width=6cm]{Fig-R8.jpg}
+	\caption{Гистограммы глубин по двум сегментам желоба Рюкю}\label{fig:R8}
+\end{figure}
+\end{column}
+
+\begin{column}{0.4\textwidth}
+\begin{itemize}\footnotesize
+            \item Диапазон -3000 до -5000 м, включающий от умеренных до небольших глубин в сопоставимых для обеих частей желоба, значения не превышают 68 проб для С части и 42 пробы для Ю. 
+            \item In contrast, a wide terrace with depths $<25$ m is generally larger (161 s.) in S.  Напротив, широкая терраса с глубинами $ <25 $ м представлена больше (161 с.) на южном сегменте желоба.
+            \item  Глубина и геометрия склона сильно различаются для С и Ю сегментов и по диапазонам глубин: для интервала от -5 500 до -5 700 м значения почти одинаковы: для С части (334 точек), для Ю (329 точек). 
+            \item Более значительные различия видны для глубин свыше -6000 м. Ю часть желоба имеет лишь несколько значений (9 точек) с глубинами свыше -6800 м, тогда как С показывает 41, 59 и 23 измерения с максимальными значениями, достигающими -7460 м.
+ \end{itemize}	
+\end{column}
+
+\end{columns}
+\end{minipage}
+\end{frame}
+
+% ----------------------------------------------------------------------------
+% *** START Palau Trench <<<
+% ----------------------------------------------------------------------------
+\section{П}
+\begin{frame}\frametitle{Желоб Палау}
+\begin{minipage}[0.4\textheight]{\textwidth}
+\begin{columns}[T]
+\begin{column}{0.5\textwidth}
+\vspace{2em}
+\begin{figure}[H]
+	\centering
+		\includegraphics[width=6.0cm]{Fig-YPT1.jpg}
+	\caption{Топографическая карта желобов Яп и Палау}\label{fig:YPT1}
+\end{figure}
+\begin{itemize}\footnotesize
+            \item О-ва Палау, расположены на западе Тихого океана, сложены вулканическими породами, покрытыми известняком коралловых рифов. $=>$ Острова Палау располагались вдоль вулканического фронта.
+\end{itemize}
+\end{column}
+
+\begin{column}{0.5\textwidth}
+\vspace{2em}
+	Основные факты по желобу Палау: 
+\begin{itemize}\footnotesize
+            \item Географическое расположение: Филиппинское море, к северу от Папуа-Новой Гвинеи, к востоку от Филиппин.
+            \item Имеет форму прямой геометрической формы (V-образный).
+            \item ЖПал входит в систему желобов Палау и Яп в З части Тихого океана 
+            \item Палау соединен с хребтом Кюсю-Палау (С) и прогибом Аю (Ю).
+            \item Морфологические и геологические характеристики: глубины свыше 8000 м (макс. -8,080 м), несмотря на чрезвычайно малую скорость конвергенции плит в этом районе и относительно молодой возраст субдуцирующей плиты
+            \item Простирается с ЮЗ-СВ. Расположен в квадрате 133\degree-136\degree в.д. и 6\degree-8\degree с.ш. к В от о-вов Яп.
+            \item Небольшое расстояние (35 км) между осью желоба и побережьем о-вов Палау на З \cite{Kobayashietal1997} 
+            \item Геология ж. Палау: толщи серпентинизированных перидотитов, базальтов, известняков, блоки известняков коралловых рифов (от 4900 до 6500 м) \cite{Kobayashietal1997}
+\end{itemize}
+\end{column}
+\end{columns}
+\end{minipage}
+\end{frame}
+
+% ----------------------------------------------------------------------------
+% *** START Yap Trench <<<
+% ----------------------------------------------------------------------------
+\section{Я}
+
+\begin{frame}\frametitle{Желоба Яп и Палау}
+\begin{minipage}[0.4\textheight]{\textwidth}
+\begin{columns}[T]
+\begin{column}{0.6\textwidth}
+\vspace{3em}
+\begin{figure}[H]
+	\centering
+		\includegraphics[width=7.0cm]{Fig-YPT7.jpg}
+	\caption{График профилей поперечного сечения желобов}\label{fig:YPT7}
+\end{figure}
+\begin{itemize}\small
+            \item Яп имеет более крутые склоны и большие глубины       
+\end{itemize}
+\end{column}
+\begin{column}{0.4\textwidth}
+\vspace{2em}
+Основные факты по желобу Яп 
+\begin{itemize}\small
+            \item Расположен в Филиппинском море, на севере от Папуа-Новой Гвинеи и на восток от Филиппин.             
+            \item Имеет макс. глубину 8 292 м, длину 700 км, ширину 50 км \cite{Satoetal1997}.
+            \item Имеет характерную J-образной форму. Простирается до дуги островов Яп \cite{Lee2004}. 
+            \item Желоб морфологически разделен на С и Ю части с границей между ними в $8^\circ26^\prime$с.ш. \cite{Fujiwaraetal2000}. 
+            \item Яп и Палау отличаются от плоскодонного трога Аю своей V-образной формой. 
+            \item Яп имеет более глубокие значения в диапазоне от -7000 м до -6000 м: 68 проб, в то время как соседний желоб Палау имеет только 34 точки для того же диапазона глубин
+\end{itemize}
+\end{column}
+\end{columns}
+\end{minipage}
+\end{frame}
+
+\begin{frame}\frametitle{Желоба Яп и Палау}
+Ключевые моменты по тектонике плит в районе желобов Яп и Палау: 
+\begin{itemize}
+	\item Яп и Палау образуют типичную систему субдукции Марианского типа, которая включает компоненты:
+	\begin{itemize}
+         	   \item глубоководный желоб
+         	   \item вулканическая островная дуга
+         	   \item задуговый бассейн (Паресе-Вела, на восточной стороне Филиппинской плиты).
+	\end{itemize}
+	\item Сложная тектоническая структура региона отражается в заметной неоднородности скоростных структур земной коры и верхней мантии под Филиппинской плитой \cite{OdaSenna1994}. 
+	\item Как следствие, активные тектонические движения отражаются в батиметрии и подводной геоморфологии.	
+	\item Зона субдукции Яп-Палау расположена к югу от Марианской системы "островная дуга-глубоководный желоб".
+	\item Палау и Яп образуются в месте субдукции Филиппинской плиты и погружения океанической литосферы в мантию.
+	\item По мере того, как опускающаяся Филиппинская плита погружается глубже в мантию, флюиды высвобождаются из мантийной породы, что вызывает плавление вышележащих слоев мантии.
+	\item Новая магма поднимается на поверхность и бурно извергается, способствуя вулканизму и формированию островной дуги вдоль сходящейся границы тектонических плит. Эти процессы объясняют образование землетрясений
+	\item Землетрясения обычны в зоне субдукции Филиппинской плиты (Яп-Палау). 
+\end{itemize}
+\end{frame}
+
+% ----------------------------------------------------------------------------
+% *** START Mariana Trench <<<
+% ----------------------------------------------------------------------------
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Мр}
+
+\begin{frame}\frametitle{Марианский желоб}
+\vspace{2em}
+
+\begin{minipage}[0.4\textheight]{\textwidth}
+\begin{columns}[T]
+\begin{column}{0.4\textwidth}
+\begin{figure}[H]
+	\centering
+		\includegraphics[width=6.0cm]{Fig-MT1.jpg}
+	\caption{Топографическая карта Филиппинского моря и расположение Марианского желоба \cite{Lemenkova201992}}\label{fig:MT1}
+\end{figure}
+\scriptsize{MрЖ представляет собой сильно вытянутую, дугообразную в плане и менее прямолинейную узкую топографическую депрессию морского дна, имеющую форму полумесяца в геометрической плоскостной проекции.}
+\end{column}
+
+\begin{column}{0.4\textwidth}
+\begin{itemize}\scriptsize
+            \item Географическое положение самой глубокой точки Мирового океана с макс. глубиной 10.984 м. расположено в MрЖ, на глубине 11,329903\degree с.ш./142,199305\degree в.д. на глубине Челленджера.
+            \item MрЖ расположен на западе Тихого океана, в 200 км к востоку от Марианских о-вов, на восточной границе плиты Филиппинского моря. 
+            \item Серпообразная дуга MрЖ может быть уложена в прямоугольник с координатами 140\degree в.д.-148°\degree в.д., 11°-25°\degree с.ш. Батиметрия морского дна варьируется в сторону моря от оси желоба.
+            \item МрЖ является частью субдукционной системы Идзу–Бонин–Мариана, которая геометрически представляет собой дугообразную форму полумесяца
+            \item Тектонически, формирует границу и взаимоотношение между двумя тектоническими плитами: Тихоокеанской, субдуцирующей под Филиппинскую.
+            \item Cложное морфологическое строение и неравномерность профилей MрЖ отражает его геолого-тектоническую эволюцию.  
+            \item Асимметрия строения проявляется на ЮЗ, где морфологическая структура желоба меняется и расположена глубочайшая точка на Земле. 
+ \end{itemize}	
+\end{column}
+
+\end{columns}
+\end{minipage}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{Марианский Желоб}
+\vspace{1em}
+
+\begin{minipage}[0.4\textheight]{\textwidth}
+\begin{columns}[T]
+\begin{column}{0.4\textwidth}
+\begin{figure}[H]
+	\centering
+		\includegraphics[width=5cm]{Fig-Mar1.jpg}
+	\caption{Профиль и сегменты Марианского желоба}\label{fig:TK1}
+\end{figure}
+\end{column}
+
+\begin{column}{0.5\textwidth}
+\begin{itemize}\scriptsize
+	\item Западный склон MрЖ представляет собой откос без поднятия, а восточная часть является границей, вдоль которой проходит западный край Тихоокеанской плиты, погруженный под меньшую по размеру Марианскую плиту. В результате морфоструктурных особенностей MрЖ сформированы его очень крутые склоны и глубины 3- 5 км, ширина днища тальвега редко превышает 5 км. 
+	\item MрЖ имеет сложные ступени различной формы и размера, вызванные активными тектоническими процессами и эрозией. 
+	\item Его поперечный профиль асимметричный: наклон находится выше на берегу Марианской островной дуги, изрезанной глубокими подводными каньонами.
+            \item Крутизна склона на левом фланге составляет 33,10° в 0-15 км. Сегмент 15-25 км имеет крутизну 45°, сегмент 25-40 км - 30,75°, сегмент 40-50 км - 28°. На правом фланге желоба крутизна склона меняется следующим образом. 
+            \item Сегмент на дистанции 0-28 км имеет крутизну 40,5°, 28-37 км от тальвега имеет 43,33° крутизны. Затем он постепенно становится пологим до 30,43° до 50 км. Сегмент на 50-90 км заключается в дугообразном постепенном повышении абсолютных значений глубин, которое стабилизируется через 100 км на уровне менее -4.000 м.
+            \item Районы с подводными горами на оси желоба отмечены его пологой геоморфологией, меньшими осевыми вертикальными нагрузками и выпуклым рельефом на внешнем подъеме. 
+            \item Марианская дуга и Западно-Марианский хребет граничат с желобом с западной стороны. 
+            \item Каролинский хребет и группа Каролинских о-вов расположены к Ю от оси желоба на расстоянии \\ок. 0-250 км. 
+            \item МарЖ имеет более крутой уклон на северном \\фланге со стороны архипелага.
+ \end{itemize}	
+\end{column}
+
+\end{columns}
+\end{minipage}
+\end{frame}
+
+% ----------------------------------------------------------------------------
+% *** END Mariana Trench <<<
+% ----------------------------------------------------------------------------
+
+\section{ИБ}
+
+\begin{frame}\frametitle{Желоб Идзу-Бонин}
+\begin{minipage}[0.4\textheight]{\textwidth}
+\begin{columns}[T]
+\begin{column}{0.5\textwidth}
+\vspace{2em}
+\begin{figure}[H]
+	\centering
+		\includegraphics[width=6.0cm]{Fig-IBT1.jpg}
+	\caption{Топографическая карта региона Идзу-Бонинского желоба}\label{fig:IBT1}
+\end{figure}
+\small{Желоб Идзу-Бонин (ИБ), (Идзу-Огасавара), расположен на западе Тихого океана, простирается от г. Токио, Япония, до о. Гуам \cite{BarnesStraub}. \\Максимальная глубина — 9810 м.}
+\end{column}
+
+\begin{column}{0.5\textwidth}
+\vspace{2em}
+	Ключевые факты по Идзу-Бонинскому желобу: 
+\begin{itemize}\small
+	    \item По своему строению ИБ продолжает Японский желоб. 
+	    \item ИБ сформирован в зоне активной тектонической субдукции мелового периода (135 M) Тихоокеанской плиты под плиту Филиппинского моря \cite{Sanoetal2016}. 
+	    \item С востока к ИБ примыкает плато Огасавара \cite{Nishizawaetal2006}. Желоб протягивается вдоль вост. подножия о-вов Нампо, протянувшегося от о. Хонсю до Бонинских. 
+             \item Как следствие субдукции литосферных плит формируются следующие структуры.
+            	\begin{itemize}
+           		\item вулканическая дуга островов системы Идзу-Бонин-Мариана
+			\item дуговая система Идзу-Бонин-Мариана
+		 	\item бассейн Сикоку как тыловой \\ и задуговый бассейны	
+		\end{itemize}
+	 \item Длина жёлоба - 1030 км.  Дно жёлоба узкое, местами плоское, разделено \\порогами на несколько \\замкнутых депрессий \\с глубинами 7000-9000 м.
+\end{itemize}
+\end{column}
+\end{columns}
+\end{minipage}
+\end{frame}
+
+\begin{frame}\frametitle{Желоб Идзу-Бонин}
+\begin{minipage}[0.4\textheight]{\textwidth}
+\begin{columns}[T]
+\begin{column}{0.5\textwidth}
+\vspace{2em}
+\small{Интерпретация результатов оцифровки профилей поперечного сечения, визуализированных на двух сегментах ИБж:}  
+\begin{figure}[H]
+	\centering
+		\includegraphics[width=6.5cm]{Fig-IBT7.jpg}
+	\caption{Профили поперечного сечения оцифрованные на двух сегментах Идзу-Бонинcкого желоба}\label{fig:IBT7}
+\end{figure}
+\end{column}
+\begin{column}{0.45\textwidth}
+\vspace{2em}	
+\begin{itemize}\small
+            \item Ю сегмент более глубокий и имеет более точную V-образную форму с более крутым уклоном на обоих склонах.
+            \item С сегмент имеет асимметричную форму склона с заметной подводной террасой на З части и более прямой формой на В части (со стороны океана).
+            \item Ю сегмент желоба имеет на графике различимый хребет Бонин.
+            \item При сравнении боковых сторон обоих сегментов желоба Идзу-Бонин, обращенных к океану, можно увидеть схожие морфоструктур. На северном сегменте видны подводные горы. 
+            \item Для С сегмента, наиболее статистически характерный диапазон глубин: от -5000 до -6000 м где зарегистрировано 1037 промеров глубин, в то время как \\Ю сегмент показывает \\всего 931 точку в таком \\диапазоне глубин.
+\end{itemize}
+\end{column}
+\end{columns}
+\end{minipage}
+\end{frame}
+
+% ----------------------------------------------------------------------------
+% *** Яп <<<
+% ----------------------------------------------------------------------------
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Япн}
+
+\begin{frame}\frametitle{Японский желоб}
+\begin{minipage}[0.4\textheight]{\textwidth}
+\begin{columns}[T]
+\begin{column}{0.5\textwidth}
+\vspace{2em}
+	\includegraphics[width=6.0cm]{Fig-JT1.jpg}
+\small{Японский желоб расположен в западной части Тихого океана, к востоку от о. Хонсю. Простирается от Курильских о-вов до северной оконечности о. Идзу} \\ 
+\end{column}
+\begin{column}{0.5\textwidth}
+\vspace{2em}
+	Основные факты по Японскому желобу:  
+\begin{itemize}\footnotesize
+            \item Расположен в западной части ТО, к востоку от Японии. Яж соединяет ККж на С и желоб ИБ на Ю, являясь южным продолжением ККж. 8 412 м в глубине и >1000 км в длине. Типичная островодужная система.          
+            \item Геологические и тектонические условия сформированы субдукцией Северо-Американской плиты под континентальную Охотскую микроплиту (часть Евразийской) \cite{HueneLallemand1990}. 
+            \item Субдукция направлена под Японские о-ва маркиркуя желоб и вызывая асимметрию его профиля.  Скорость субдукции в районе желоба - ок. 7,9–9,2 см/год.
+            \item Начало образования: не раньше миоцена. Прогибание особенно интенсивно происходило в конце плиоцена и в плейстоцене.
+            \item Активные тектонические движения в зоне субдукции в районе Яж продолжаются и отражаются в сейсмограммах, $=>$ одна из причин цунами и мощных землетрясений на севере Японии, в т.ч. Тохоку и вызванного им цунами (11.03.2011). \cite{HueneCulotta1989}; \cite{Linetal2016}; \cite{Bostonetal2017}.
+\end{itemize}
+
+
+\end{column}
+\end{columns}
+\end{minipage}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{Японский желоб}
+\begin{minipage}[0.4\textheight]{\textwidth}
+\begin{columns}[T]
+\begin{column}{0.5\textwidth}
+\vspace{2em}
+Сравнительный анализ двух частей серии профилей поперечного сечения : 
+	\includegraphics[width=6.5cm]{Fig-JT8.jpg}
+Изрезанные морфоструктуры профилей продольно-поперечного сечения Японского желоба
+\end{column}
+\begin{column}{0.45\textwidth}
+\vspace{2em}	
+\begin{itemize}\footnotesize
+            \item Северная часть желоба на континентальной части склона под фронтальным клином Северо-Американской плиты: более крутой склон. 
+            \item Южная часть ЯЖ показывает более пологий склон на острове Хонсю.
+            \item Было оцифровано 12 профилей для южного сегмента и 14 профилей для северного.
+            \item Геологические условия и сейсмичность местности влияют на неровности рельефа желоба и морфоструктуру
+            \item З часть профиля желоба (склон о. Хонсю) имеет более крутые уклоны по сравнению со склонами со стороны океана для обоих сегментов
+            \item Дуго-желобная система Яж - разновидность подвижных поясов с характерным рельефом, образовавшихся в результате субдукции плит, активного вулканизма, повторяющихся землетрясений и орогенеза.
+            \item Диапазон глубин -4000 до -5000 м, чаще встречается для Ю части желоба: 134 точки, промеренных в результате оцифровки, тогда как С часть желоба не превышает \\100 значений: 91 точка. 
+\end{itemize}
+\end{column}
+\end{columns}
+\end{minipage}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Выв}
+
+\begin{frame}\frametitle{Новизна}
+Диссертация содержит как теоретические, так и практические аспекты новизны.
+
+\begin{itemize}
+            \item Теоретическая новизна заключается в сравнительном анализе вариативности 20 тихоокеанских желобов, сформированных в результате совокупности разных тектонико-геологических факторов. Аналогичной системной работы нет в существующей доступной литературе.
+            \item Картографическая новизна заключается в авторском разработанном и представленном алгоритме оцифровки профилей поперечного сечения и геоморфологическом моделировании 20 глубоководных желобаов с помощью модуля GMT 'grdtrack' (основной) и многих других модулей GMT.
+            \item Дополнительные аспекты практической новизны заключается в использовании существующих методов статистического анализа данных применительно к глубоководных желобам: Марианский, Филиппинский и Курило-Камчатский (плагины QGIS, библиотеки Python, Matlab/Octave, AWK и R) в виде последовательной технологической цепочки процессов обработки данных: 1) оцифровка профилей в  QGIS; 2) реформатирование в AWK; 3) табличная обработка данных в Python, Matlab/Octave и R. 
+            \item Исследованы особенности строения Тихоокеанских желобов, которые представляют собой сложные системы с сильно взаимосвязанными факторами, влияющими на их морфоструктуру, формирование и развитие: скорость движения слэбов в районе субдукции, плотность и возраст тектонических плит, географическое положение (близость к континентальному склону, которая обусловливает толщину осадконакопления), геологическое строение \\кристаллического фундамента.
+  
+\end{itemize}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}\frametitle{Актуальность}
+Актуальность и обоснованность данной работы заключаются в следующем:
+
+\begin{itemize}\small
+         \item Техническая актуальность. Хотя в последнее время применение методов машинной обработки данных (machine learning) значительно расширилось, использование скриповой картографии по-прежнему реже по сравнению с ГИС. Основным инструментом, используемым в геонауках, продолжают оставаться традиционные ГИС, скорость и качество которых ниже, чем при использовании скриптов (\cite{Lemenkova2005b2}, \cite{RID09251802355041}, \cite{RID:0925180235504-2}, \cite{Lemenkova2014d}, \cite{Lemenkova2011c}, \cite{Lemenkova2005a}, \cite{Lemenkova2012j}, \cite{Lemenkova2007c}, \cite{Lemenkova2012d}, \cite{Lemenkova2012g}). 
+         \item Картографирование дна в режиме реального времени (в рейсах НИС) включает в себя несколько трудоемких этапов технологического процесса, которые включают: эхолотирование гидролокатором Hydrosweep DS \cite{Lemenkova201569}, обработка данных CARIS HIPS \cite{Lemenkova2007f}, визуализация данных в ArcGIS, каталогизирование и менеджмент данных в ArcCatalog, форматирование и обработка данных в GMT \cite{Lemenkova201565}. Это весьма трудоемкий процесс. Не отменяя, а дополняя его, использование данных из высокого разрешения (EGM-2008, GlobeSed, GEBCO, ETOPO1) из открытых источников обеспечивает более гибкие возможности для изучения океанского дна.
+	\item На личном опыте автора: точная оцифровка профилей поперечных сечений с помощью ArcGIS/QGIS выполняется намного медленнее по сравнению с разработанной автором автоматизированной оцифровкой на основе GMT. Это крайне важно для точного анализа морфоструктур рельефа 
+	\item Автоматизированная оцифровка форм рельефа дна с использованием машинных методов GMT открывает принципиально новые для моделирование форм рельефа морского дна благодаря быстрой и точной картографической оцифровке, по сравнению с традиционной ГИС. Автоматизация существенно повышает 3 аспекта работы: скорость, точность и качество моделирования данных.
+\end{itemize}
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}\frametitle{Важность автоматизации в геологии}
+
+\begin{itemize}\small
+	\item Представленная методология машинного профилирования рельефа желобов на основе GMT (\cite{Wessel2019}, \cite{Wessel2018}) позволила сделать важные шаги в автоматизации прикладных картографических методов в тектонико-геологических науках. 	
+	 \item Продемонстрированное систематическое картографирование глубоководных желобов на основе GMT ​​обеспечило точное и эффективное моделирование рельефа дна как в 2D так и в 3D форматах \cite{Lemenkova2007f}
+	 \item Поскольку глубоководные желоба Тихого океана являются недоступными или труднодоступными объектами для их непосредственного изучения и сравнительного анализа морфоструктур, использование передовых методов анализа данных для работы именно с желобами является актуальной и важной работой.
+	 \item Использованные функциональные возможности модулей GMT позволили выполнять автоматическую оцифровку ортогональных профилей продольно-поперечного сечения 20 желобов. В результате, были визуализированы, сравнены и статистически проанализированы морфоструктуры 20 Тихоокеанских желобов, градиент их крутизны и кривизна.
+	 \item Интеграция данных из разнообразных разноформатных источников (топография и батиметрия, геология, тектоника, геофизика, сейсмические данные) обеспечила полноту охвата анализа тектонически активных краевых регионов Тихого океана. Наиболее важные данные включали GEBCO \cite{Mayeretal2018}; \cite{Monahan2004}, SRTM \cite{Beckeretal2009}, ETOPO1 \cite{AmanteEakins2009}, Goole Earth \cite{Lemenkova201510}, гравиметрия на основе альтиметрических измерений ДЗЗ (CryoSat-2, Envisat, Jason-1) \cite{Sandwelletal2013}.
+	\item Традиционная ручная оцифровка океанского дна (напр., через QGIS)  представляет собой монотонную медленную рутинную работу, которая подвержена как незначительным так и серьезным ошибкам. Поэтому представленная автоматизация в геологическом и батиметрическом картографировании является актуально задачей \cite{Lemenkova2008b}. 
+
+\end{itemize}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}\frametitle{Заключение}
+
+\begin{itemize}\small
+	\item Представленная диссертация является вкладом как в систему знаний о структуре глубоководных желобов как уникальных фаорм рельефа дна океана, образованных в тектонически активной зоне субдукции, так и вкладом в развитие и совершенствование методологического аппарата тектонико-геологического картографирования
+	\item Точная и актуальная информация о геоморфологии глубоководных Тихоокеанских желобов необходима для глубокого анализа сложных взаимосвязанных процессов формирования и динамики Земной коры, приводящих к формированию морфоструктр желобов. Они включают междисциплинарный  анализ данных по морской геологии, тектонике, сейсмичности, процессов осадконакопления, скоростью и направлением течений, физико-географическими факторами, геодинамической эволюцией \cite{Lemenkova2006e}, \cite{Lemenkova2006a}, \cite{Lemenkova2006b}, \cite{Lemenkova2006c}.
+	\item Картографирование рельефа дна играет решающую роль в анализе геологических структур: разломы, рифтовые зоны, спрединг, желоба, краевые валы, подводные горы, гийоты, плато
+	\item Теоретический аспект выражается в анализе тектонико-геологических факторов, обуславливающих разнообразие морфоструктр океанского дна. 
+	\item Практический аспект выражается в методологически и и технически актуальном применении передовых алгоритмов моделирования и картографирования океанского дна, а также систематического геоморфологического профилирования 20 желобов Тихого океана.	
+	\item Большой объем работы (20 желобов) естественно привел к необходимости технической обработки больших массивов разноформатных данных (растровые, векторные, табличные), выполненной автором. Это потребовало их структурирования, организации и управления всей имеющейся тематической информацией в базе данных ГИС, связывания данных, создания карт \cite{Lemenkova201540}, \cite{Lemenkova2016e}. 
+	\item Автоматизация обработки данных является технически важным методологическим подходом для повышения качества геологических исследований
+	\item Сравнительный анализ  20 желобов, представленный в данной диссертации, является мультидисциплинарный исследованием, являясь сочетанием теоретических и \\практических аспектов в изучении океанского дна. 
+
+\end{itemize}
+
+\end{frame}
+
+% ----------------------------------------------------------------------------
+% *** START: Final Slide <<<
+% ----------------------------------------------------------------------------
+
+\section{Конец}
+\begin{frame}\frametitle{Спасибо за внимание!}
+
+%\begin{figure}[H]
+%	\centering
+%		\includegraphics[width=12cm]{Fig-Final.jpg}
+%\end{figure}
+
+%\begin{center}
+%\Huge{Конец презентации\\
+%\vspace{1em}
+%Спасибо за внимание !}
+%\end{center}
+
+\begin{tikzpicture}%
+\node[anchor=south west, inner sep=0] (X) at (-0,0){\includegraphics[width=11.5cm]{Fig-Final.jpg}};%
+\begin{scope}[x={(X.south east)},y={(X.north west)}]%
+%% This makes all measurements with no units into fractions of the width
+%% and height of the graphic contained in the node.
+\fill[fill = white,fill opacity=0.6] ($(X.south west) + (0,1in)$) rectangle ($(X.north east) - (0,1in)$);%
+\node[text width=8cm] (Z) at (0.5,0.5) {%
+  \sffamily\centering\large \textcolor{NavyBlue}{Конец презентации}\\[3pt]
+  \large \textcolor{NavyBlue}{Спасибо за внимание !}\\[3pt]
+  \normalsize \textcolor{NavyBlue}{Вопросы ?}\par%
+};
+\end{scope}%
+\end{tikzpicture}
+
+\end{frame}
+ 
+% ----------------------------------------------------------------------------
+% *** END: Final Slide >>>
+% ----------------------------------------------------------------------------
+%%%%%%%%%%% Bibliography %%%%%%%
+\section{Лит}
+	\markright{Bibliography}
+	\printbibliography[heading=none]
+	
+\end{document}
+
+%Changing the font size locally (from biggest to smallest):	
+%\Huge
+%\huge
+%\LARGE
+%\Large
+%\large
+%\normalsize (default)
+%\small
+%\footnotesize
+%\scriptsize
+%\tiny
